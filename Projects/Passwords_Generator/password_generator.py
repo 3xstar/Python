@@ -1,0 +1,2 @@
+import password_generator_code
+password_generator_code.password_generator()

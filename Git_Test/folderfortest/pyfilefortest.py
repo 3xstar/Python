@@ -1,0 +1,1 @@
+print("BLU BLU BLU")

@@ -1,0 +1,5 @@
+example = input("введите пример: ")
+example_list = example.split("+")
+example_list = map(int, example_list)
+# example_list = list(example_list)
+print(example, "=", sum(example_list))
