@@ -20,7 +20,7 @@ def add_book(file_path, book):
 #Удаление книжки
 def delete_book(file_path, book_id):
     books = load_books(file_path)
-    new_books = [book for book in books if books[id] != book_id]
+    new_books = [book for book in books if book['id'] != book_id]
     save_books(file_path, new_books)
     return new_books
 
@@ -32,7 +32,7 @@ def update_book(file_path, book_id, update_data):
             book.update(update_data)
             save_books(file_path, books)
             return True
-        return None
+    return None
 
 #Поиск
 def find_book(file_path, book_title):
@@ -40,4 +40,4 @@ def find_book(file_path, book_title):
     for book in books:
         if book['title'] == book_title:
             return book
-        return None
+    return None
