@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>予定 (schedule)</title>
+
+    <style>
+        body{
+           font-family: Arial;
+           padding: 30px;
+           text-align: center;
+           background: #000000;
+         }
+        h1{
+            font-size: 60px;
+            color: white;
+        }
+        h2{
+            font-size: 30px;
+            color: #04263b;
+            background: white;
+            border-radius: 20px;
+            margin: 30px;
+            padding: 40px;
+        }
+        .btn {
+            font-size: 30px;
+            display: inline-block;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            text-decoration: none;
+            color: #04263b
+        }
+
+        .btn:hover {
+        background: gray;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>予定 (schedule)</h1>
+    <h2>{{day}}</h2>
+    <a href="/?day=Понедельник" class="btn">Понедельник</a>
+    <a href="/?day=Вторник" class="btn">Вторник</a>
+    <a href="/?day=Среда" class="btn">Среда</a>
+    <a href="/?day=Четверг" class="btn">Четверг</a>
+    <a href="/?day=Пятница" class="btn">Пятница</a>
+</body>
+</html>
