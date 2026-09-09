@@ -1,0 +1,126 @@
+@import url('https://cdnfonts.com');
+
+/* 1. КРИТИЧЕСКИЙ ЭФФЕКТ */
+@keyframes crit-glow {
+    0% { box-shadow: 0 0 5px #b8383b, 2px 2px 0px #000; }
+    50% { box-shadow: 0 0 20px #ef4444, 2px 2px 0px #000; }
+    100% { box-shadow: 0 0 5px #b8383b, 2px 2px 0px #000; }
+}
+
+/* 2. АНИМАЦИЯ ПОДЕРГИВАНИЯ */
+@keyframes tf-shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(-2px, 1px) rotate(-0.5deg); }
+    40% { transform: translate(1px, -1px) rotate(0.5deg); }
+    60% { transform: translate(-1px, 2px) rotate(0deg); }
+    80% { transform: translate(2px, 1px) rotate(0.5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+body {
+    background: #2b2622;
+    font-family: 'TF2 Build', 'Impact', sans-serif;
+    font-weight: normal;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    text-shadow: none;
+    color: #f5e7c6;
+    padding: 30px;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+/* Шапка сайта (Верхний виджет из скриншота) */
+#header {
+    background: #b8383b;
+    color: #ffffff;
+    padding: 25px; /* Немного увеличили отступы */
+    border: 4px solid #3c352e;
+    text-transform: uppercase;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 4px 4px 0px #000;
+    text-shadow: 3px 3px 0px #000; /* Более четкая тень для главного заголовка */
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+#header:hover {
+    background: #d63d40;
+    animation: crit-glow 0.6s infinite linear;
+    transform: translateY(-2px);
+}
+
+/* НАСТРОЙКА ССЫЛОК-ПЕРЕХОДНИКОВ (Убираем фиолетовый цвет и увеличиваем) */
+#header a, #header a:visited {
+    color: #ede3c4; /* Каноничный песочно-белый цвет меню */
+    font-size: 1.5rem; /* Значительно увеличили размер ссылок меню */
+    text-decoration: none; /* Убираем стандартное подчеркивание */
+    text-shadow: 2px 2px 0px #000; /* Четкий черный HUD-контур */
+    display: inline-block;
+    transition: color 0.1s ease, transform 0.1s ease;
+}
+
+/* Эффект при наведении на MAIN PAGE или PROFILE */
+#header a:hover {
+    color: #ff9000; /* Фирменный оранжевый цвет Valve при наведении */
+    transform: scale(1.05); /* Легкое увеличение элемента */
+}
+
+/* Эффект зажатия ссылки */
+#header a:active {
+    color: #ffffff;
+    transform: scale(0.95);
+}
+
+/* Контентная зона */
+#content {
+    background: #efe7d3;
+    color: #2b2622;
+    padding: 20px;
+    border: 4px solid #3c352e;
+    border-top: none;
+    box-shadow: 4px 4px 0px #000;
+}
+
+/* Карточки */
+.card {
+    background: #5b7a8c;
+    color: #ffffff;
+    font-size: 1.4em;
+    margin: 15px 0;
+    padding: 18px;
+    border: 3px solid #231f1b;
+    box-shadow: 4px 4px 0px #000;
+    text-shadow: 2px 2px 0px #000;
+    transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.1s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    background: #6b8d9f;
+    box-shadow: 6px 6px 0px #000;
+    transform: scale(1.02) rotate(-0.5deg);
+}
+
+.card:active {
+    background: #b8383b;
+    color: #fff;
+    box-shadow: 1px 1px 0px #000;
+    transform: translate(3px, 3px);
+    animation: tf-shake 0.15s infinite;
+}
+
+/* Подвал */
+#footer {
+    background: #1d1a17;
+    color: #b8383b;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 20px;
+    text-align: center;
+    border: 4px solid #110f0e;
+    margin-top: 30px;
+    box-shadow: 4px 4px 0px #000;
+    text-shadow: 1px 1px 0px #000;
+}

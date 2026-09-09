@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if user_id|int in profiles %}
+        User profile
+    {% else %}
+        Error ❕
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+    {% if user_id|int in profiles %}
+        User profile {{ profiles[user_id|int].name }} is found
+    {% else %}
+        User profile {{ profiles[user_id|int].name }} is not found
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if user_id|int in profiles %}
+        <img src="{{profiles[user_id|int].image}}" width="100">
+        <h2>Name {{profiles[user_id|int].name}}</h2>
+        <h3>Age {{profiles[user_id|int].age}}</h3>
+    {% endif %}
+{% endblock %}
