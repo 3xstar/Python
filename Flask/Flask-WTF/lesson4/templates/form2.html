@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Account</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <div class="bg-decor decor-1">武</div>
+    <div class="bg-decor decor-2">道</div>
+    <div class="bg-decor decor-3">禅</div>
+    <div class="bg-decor decor-4">和</div>
+
+    <div class="account-card" style="max-width: 500px;">
+        <h1>Student <span>//</span> Account</h1>
+
+        <div class="info-group">
+            <h2>Your name</h2>
+            <div class="info-value">{{ username }}</div>
+        </div>
+
+        <div class="info-group">
+            <h2>Your age</h2>
+            <div class="info-value">{{ age }}</div>
+        </div>
+
+        <div class="info-group">
+            <h2>Your email</h2>
+            <div class="info-value">{{ email }}</div>
+        </div>
+
+        <div class="info-group">
+            <h2>Your Group</h2>
+            <div class="info-value" style="color: #fff; font-weight: bold;">{{ group }}</div>
+        </div>
+
+        <h1 style="font-size: 1.3rem; margin-top: 40px; margin-bottom: 20px;">Schedule</h1>
+
+        <div style="text-align: left;">
+            {% for day, lessons in schedule.items() %}
+            <div class="info-group" style="border-bottom: 1px dashed rgba(255,255,255,0.1); margin-bottom: 10px; padding-bottom: 8px;">
+                <h2 style="color: var(--accent-white); font-weight: bold;">{{ day }}</h2>
+                <div class="info-value" style="font-size: 0.95rem; color: var(--text-muted); layout: block;">{{ lessons }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a href="/" class="logout-btn">Back ↩</a>
+    </div>
+
+</body>
+</html>

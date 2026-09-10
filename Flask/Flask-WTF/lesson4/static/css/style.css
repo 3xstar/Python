@@ -1,0 +1,297 @@
+:root {
+    --bg-sky: #13171e;          /* Ночное сумеречное небо у гор */
+    --bg-water: #0a0d13;        /* Глубокая речная гладь */
+    --card-bg: rgba(26, 32, 44, 0.85); /* Глубокий камень Sifu */
+    --text-main: #ffffff;       /* Абсолютно белый цвет для всех главных надписей и заголовков */
+    --text-muted: #a0aec0;      /* Светлый пепельно-серебряный для отличной читаемости подписей */
+    --border-line: rgba(255, 255, 255, 0.12); /* Чуть более заметная светлая граница */
+    --lantern-glow: rgba(255, 213, 169, 0.06); /* Мягкие блики на воде */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Georgia', 'serif', sans-serif;
+    background: linear-gradient(to bottom,
+        var(--bg-sky) 0%,
+        #171c26 40%,
+        #232b3a 50%,
+        var(--bg-water) 60%,
+        #06080c 100%
+    );
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- ОПТИМИЗИРОВАННЫЕ ЭФФЕКТЫ ОКРУЖЕНИЯ --- */
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 40vh;
+    left: 0;
+    width: 200%;
+    height: 20vh;
+    background: radial-gradient(ellipse at 30% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+    will-change: transform;
+    animation: sifuFogFlow 35s linear infinite;
+}
+
+body::after {
+    /* Добавляем цепочку огоньков прямо поверх существующего фона реки */
+    background-image:
+        /* Огонек 1 */
+        radial-gradient(circle at 20% 0%, var(--lantern-glow) 0%, transparent 4px),
+        radial-gradient(circle at 20% 0%, rgba(255, 223, 169, 0.4) 0%, transparent 40px),
+        /* Огонек 2 */
+        radial-gradient(circle at 40% 2%, var(--lantern-glow) 0%, transparent 3px),
+        radial-gradient(circle at 40% 2%, rgba(255, 223, 169, 0.3) 0%, transparent 30px),
+        /* Огонек 3 */
+        radial-gradient(circle at 65% 1%, var(--lantern-glow) 0%, transparent 5px),
+        radial-gradient(circle at 65% 1%, rgba(255, 223, 169, 0.5) 0%, transparent 50px),
+        /* Огонек 4 */
+        radial-gradient(circle at 85% 0%, var(--lantern-glow) 0%, transparent 4px),
+        radial-gradient(circle at 85% 0%, rgba(255, 223, 169, 0.4) 0%, transparent 40px),
+        /* Исходные большие размытые отсветы фонарей */
+        radial-gradient(ellipse at 25% 10%, rgba(255, 213, 169, 0.06) 0%, transparent 45%),
+        radial-gradient(ellipse at 75% 10%, rgba(255, 213, 169, 0.06) 0%, transparent 45%);
+
+    /* Подключаем легкую оптимизированную анимацию мерцания */
+    will-change: opacity;
+    animation: lanternPulse 8s ease-in-out infinite;
+}
+
+@keyframes lanternPulse {
+    0%, 100% { opacity: 0.90; }
+    50% { opacity: 1; filter: brightness(1.1); }
+}
+
+@keyframes sifuFogFlow {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.bg-decor {
+    position: absolute;
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.008);
+    font-family: 'serif';
+    user-select: none;
+    z-index: 0;
+    pointer-events: none;
+}
+.decor-1 { top: 12%; left: 12%; }
+.decor-2 { bottom: 15%; left: 12%; }
+.decor-3 { top: 12%; right: 12%; }
+.decor-4 { bottom: 15%; right: 12%; }
+
+/* --- ТЕМНЫЙ МОНОЛИТНЫЙ ВИДЖЕТ --- */
+
+form, .account-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 4px solid var(--text-main);
+    border-radius: 0px;
+    padding: 35px 45px;
+    width: 100%;
+    max-width: 430px;
+    box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.8),
+        0 15px 30px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    z-index: 10;
+    position: relative;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+form:hover, .account-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 50px 90px rgba(0, 0, 0, 0.85),
+        0 20px 40px rgba(0, 0, 0, 0.65);
+}
+
+/* Заголовки */
+h1 {
+    font-weight: 300;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-line);
+    padding-bottom: 15px;
+}
+
+h1 span {
+    color: var(--text-muted);
+}
+
+/* Поля ввода */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted); /* Текст стал светлее и отлично читается */
+    margin-bottom: 6px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-line);
+    padding: 8px 0;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-family: inherit;
+    transition: border-color 0.3s ease, padding-left 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-bottom-color: var(--text-main);
+    padding-left: 4px;
+}
+
+.form-group:focus-within label {
+    color: var(--text-main);
+}
+
+/* Строки вывода информации в Личном Кабинете */
+.info-group {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    text-align: left;
+    transition: padding-left 0.3s ease, border-color 0.3s ease;
+}
+
+.info-group:hover {
+    padding-left: 6px;
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+h2 {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.info-value {
+    font-size: 1.05rem;
+    color: var(--text-main);
+}
+
+/* Нижний блок переключения страниц (Исправлена видимость ссылки) */
+p {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-muted); /* Текст перед ссылкой стал светлым */
+}
+
+p a {
+    color: var(--text-main) !important; /* Ссылка стала абсолютно белой */
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--text-main);
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+p a:hover {
+    opacity: 0.8;
+    border-bottom-style: solid;
+}
+
+/* Кнопка */
+button[type="submit"], .logout-btn {
+    display: block;
+    width: 100%;
+    margin-top: 25px;
+    padding: 14px;
+    background: var(--text-main);
+    color: #0b0e14;
+    border: 1px solid var(--text-main);
+    border-radius: 0px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover, .logout-btn:hover {
+    background: transparent;
+    color: var(--text-main);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+button[type="submit"]:active, .logout-btn:active {
+    transform: scale(0.99);
+}
+
+/* --- СТИЛИЗАЦИЯ ОШИБОК ПОД МОНАСТЫРСКОЕ ЗОЛОТО --- */
+.error-message {
+    background: rgba(212, 163, 89, 0.06) !important; /* Очень мягкий золотистый отсвет */
+    border: 1px solid #d4a359 !important;            /* Строгая охра / матовое золото */
+    color: #f7e2c4 !important;                       /* Светло-песочный читаемый текст */
+    padding: 12px;
+    border-radius: 0px;                              /* Только прямые линии */
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;                       /* Стиль строгой вывески */
+    animation: errorShake 0.4s ease-in-out;
+}
+
+/* --- ФИКС КОНТРАСТА ДЛЯ БЛОКА РАСПИСАНИЯ --- */
+
+/* Делаем названия дней недели (ПОНЕДЕЛЬНИК, ВТОРНИК...) чуть ярче */
+.account-card h2 {
+    color: #b2bfc2 !important;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* Принудительно красим названия предметов (Введение в 3D, Анатомия...) в идеально БЕЛЫЙ цвет */
+.account-card .info-value {
+    color: #ffffff !important;
+    font-weight: 300;
+    margin-top: 4px;
+}
+
+/* Делаем разделительные линии дней недели чуть заметнее, чтобы они не сливались */
+.account-card .info-group {
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.15) !important;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+}

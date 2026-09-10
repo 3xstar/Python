@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в аккаунт</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <div class="bg-decor decor-1">武</div>
+    <div class="bg-decor decor-2">道</div>
+    <div class="bg-decor decor-3">禅</div>
+    <div class="bg-decor decor-4">和</div>
+
+    <form method="post">
+        {% if error %}
+            <div class="error-message">⚠️ {{ error }}</div>
+        {% endif %}
+
+        <h1>Sign In</h1>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit">Войти</button>
+
+        <p style="text-align: center; margin-top: 20px; font-size: 0.8rem;">
+            Нет аккаунта? <a href="/" style="color: var(--accent-white); text-decoration: none; border-bottom: 1px dashed;">Зарегистрироваться</a>
+        </p>
+    </form>
+
+</body>
+</html>
