@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+        {% if books %}
+            <div class="books-grid">
+                {% for id, book in books.items() %}
+                <div class="book-card">
+
+                    <div class="book-img-wrapper">
+                        <img src="{{book.image}}" alt="{{book.name}}" loading="lazy">
+                    </div>
+
+                    <div class="book-info">
+                        <div class="book-title">{{loop.index}}. {{book.name}}</div>
+                        <div class="book-author">{{book.author}}</div>
+                        <p class="book-desc">{{ book.description }}</p>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <div class="empty-catalog">
+            <div class="empty-icon">📖📕</div>
+            <h2>Каталог пуст</h2>
+            <p>Книжек нет нигде.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
