@@ -1,0 +1,211 @@
+/* Импорт футуристичного и чистого шрифта */
+@import url('https://googleapis.com');
+
+:root {
+    --bg-color: #0b111e;
+    --panel-bg: rgba(16, 24, 48, 0.65);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --accent-pink: #ff6584;
+    --accent-cyan: #00f0ff;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+}
+
+/* Общие стили и глянцевый пол (эффект отражения) */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at 80% 20%, #1a1528 0%, var(--bg-color) 70%);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Эффект отражения на «глянцевом полу» музея */
+body::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 35vh;
+    background: linear-gradient(to top, rgba(0, 240, 255, 0.03), rgba(255, 101, 132, 0.02), transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Основной контейнер — как инсталляция на выставке */
+.container {
+    background: var(--panel-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 40px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    z-index: 2;
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(0, 240, 255, 0.1);
+}
+
+/* Заголовки в стиле арт-выставки */
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 35px;
+    color: var(--text-main);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Стилизация формы */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Группы полей (Label + Input) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+/* Поля ввода */
+input[type="text"],
+input[type="number"],
+input:not([type="submit"]) {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+input:not([type="submit"]):focus {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+}
+
+/* Кнопка отправки с неоновым переходом */
+input[type="submit"] {
+    margin-top: 15px;
+    background: transparent;
+    border: 1px solid var(--accent-pink);
+    color: var(--accent-pink);
+    font-family: 'Orbitron', sans-serif;
+    padding: 14px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+input[type="submit"]:hover {
+    background: var(--accent-pink);
+    color: var(--bg-color);
+    box-shadow: 0 0 25px rgba(255, 101, 132, 0.5);
+    transform: scale(1.02);
+}
+
+input[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+/* Экран результатов — динамические цвета статуса */
+.result-status {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+/* Цветовые схемы под разные состояния ИМТ в стиле Sifu */
+.status-normal {
+    color: var(--accent-cyan);
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.status-warning {
+    color: #ffb86c;
+    text-shadow: 0 0 15px rgba(255, 184, 108, 0.4);
+}
+
+.status-danger {
+    color: var(--accent-pink);
+    text-shadow: 0 0 15px rgba(255, 101, 132, 0.4);
+}
+
+/* Анимация пульсации для финального вердикта */
+@keyframes pulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.03); }
+}
+
+/* Ссылка Назад */
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.back-link:hover {
+    color: var(--accent-cyan);
+}
