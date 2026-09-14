@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+  <h1>Result</h1>
+  <h2>Ваш IMT: <span class="status-normal">{{ bmi }}</span></h2>
+
+  {% if bmi < 18.5 %}
+    <div class="result-status status-warning">Недовес</div>
+  {% elif 25 >= bmi >= 18.5 %}
+    <div class="result-status status-normal">Норма</div>
+  {% elif 30 >= bmi > 25 %}
+    <div class="result-status status-warning">Избыток</div>
+  {% elif bmi > 30 %}
+    <div class="result-status status-danger">Ожирение</div>
+  {% endif %}
+
+   <a href="/imt" class="back-link">← Вернуться к калькулятору</a>
+</div>
+{% endblock %}

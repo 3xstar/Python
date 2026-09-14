@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+        <h1>IMT CALCULATOR</h1>
+
+    <form method="post">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.weight.label }}
+            {{ form.weight() }}
+        </div>
+
+        <div class="form-group">
+            {{ form.height.label }}
+            {{ form.height() }}
+        </div>
+
+        <div class="form-group">
+            {{ form.age.label }}
+            {{ form.age() }}
+        </div>
+
+        {{ form.submit() }}
+    </form>
+</div>
+{% endblock %}
