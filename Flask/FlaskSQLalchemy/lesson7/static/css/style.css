@@ -1,0 +1,265 @@
+/* Импортируем строгие, мрачные и кинематографичные шрифты */
+@import url('https://googleapis.com');
+
+:root {
+    /* Палитра темной детской спальни */
+    --fnaf-dark: #07070a;        /* Абсолютная темнота под кроватью */
+    --fnaf-purple: #1e122b;      /* Фиолетовые тени ночи */
+    --fnaf-deep-red: #3a0808;    /* Запекшаяся кровь на зубах кошмаров */
+    --fnaf-accent-red: #9c1c1c;  /* Светящиеся глаза в темноте */
+    --flashlight-gold: #f4ebd0;  /* Цвет луча старого фонарика */
+    --wallpaper-stripe: #111218; /* Полосы на обоях спальни */
+
+    /* Шрифты */
+    --font-title: 'Cinzel', serif;
+    --font-accent: 'Oswald', sans-serif;
+    --font-main: 'Roboto', sans-serif;
+}
+
+/* Общий фон — жуткие полосатые обои спальни, уходящие во тьму */
+body {
+    background-color: var(--fnaf-dark);
+    /* Создаем текстуру вертикальных обойных полос и глубокую виньетку по краям экрана */
+    background-image:
+        radial-gradient(circle, transparent 20%, rgba(0, 0, 0, 0.95) 85%),
+        linear-gradient(90deg, var(--fnaf-dark) 50%, var(--wallpaper-stripe) 50%);
+    background-size: cover, 40px 100%;
+    color: var(--flashlight-gold);
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-attachment: fixed;
+}
+
+/* Навигация — верхняя грань экрана, скрытая во тьме */
+nav {
+    background: #030305;
+    border-bottom: 2px solid var(--fnaf-deep-red);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+/* Название приложения в стиле тизеров Скотта Коутона ("Five Nights at...") */
+nav div:first-child {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #fff;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px rgba(156, 28, 28, 0.6);
+}
+
+nav div:last-child {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #666673;
+    text-decoration: none;
+    font-family: var(--font-accent);
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+/* Главный контейнер */
+.container {
+    max-width: 1050px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+/* Заголовки — холодные, массивные, без лишней графики */
+h1 {
+    font-family: var(--font-title);
+    font-weight: 500;
+    font-size: 2.8rem;
+    color: #fff;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+/* Заголовки внутри карточек */
+h2 {
+    font-family: var(--font-accent);
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: #fff;
+    margin: 0 0 15px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+h5 {
+    font-family: var(--font-accent);
+    color: var(--fnaf-accent-red);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+
+/* Сетка для карточек заметок */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 35px;
+    margin-top: 30px;
+}
+
+/* КАРТОЧКА: Металлическая обшарпанная дверь / Дверь шкафа спальни */
+.note-card {
+    background: linear-gradient(135deg, #14151f 0%, #0b0c12 100%);
+    color: #bbbbc7;
+    border: 1px solid #202230;
+    /* Бордовая полоса страха на левой грани */
+    border-left: 4px solid var(--fnaf-deep-red);
+    border-radius: 4px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+}
+
+/* Эффект падения луча света от фонарика при наведении */
+.note-card:hover {
+    border-color: rgba(244, 235, 208, 0.3);
+    border-left-color: var(--fnaf-accent-red);
+    background: linear-gradient(135deg, #1a1b29 0%, #10111a 100%);
+    transform: translateY(-5px);
+    /* Мягкое золотистое свечение "фонарика" */
+    box-shadow: 0 0 30px rgba(244, 235, 208, 0.1), 0 20px 40px rgba(0, 0, 0, 0.9);
+}
+
+/* Кнопки действий — минималистичные, индустриальные */
+.btn-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 22px;
+    font-family: var(--font-accent);
+    font-weight: 500;
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    border-radius: 2px;
+}
+
+/* Кнопка "Прислушаться / Открыть дверь" */
+.btn-primary {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary:hover {
+    background: #fff;
+    color: var(--fnaf-dark);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+/* Кнопка удаления (Закрыть дверь перед Кошмаром) */
+.btn-danger {
+    background: #240a0a;
+    color: #ff4545;
+    border: 1px solid var(--fnaf-deep-red);
+}
+
+.btn-danger:hover {
+    background: var(--fnaf-accent-red);
+    color: #fff;
+    box-shadow: 0 0 15px var(--fnaf-accent-red);
+    border-color: #ff4545;
+}
+
+/* Формы — тяжелые железные панели системы вентиляции или щитка */
+form {
+    background: #0c0d12;
+    padding: 45px;
+    border: 1px solid #191b26;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+    border-radius: 4px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+form label {
+    display: block;
+    font-family: var(--font-accent);
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Строгие, чистые поля ввода */
+form input[type="text"], form textarea {
+    width: 100%;
+    padding: 16px;
+    background: #050508;
+    border: 1px solid #202230;
+    color: var(--flashlight-gold);
+    font-size: 1.05rem;
+    font-family: var(--font-main);
+    box-sizing: border-box;
+    transition: all 0.2s;
+    border-radius: 2px;
+}
+
+form input[type="text"]:focus, form textarea:focus {
+    outline: none;
+    border-color: var(--fnaf-accent-red);
+    background: #090a0f;
+    box-shadow: 0 0 10px rgba(156, 28, 28, 0.3);
+}
+
+/* Кнопка сохранения / запечатывания */
+form input[type="submit"] {
+    width: 100%;
+    padding: 16px;
+    background: var(--fnaf-deep-red);
+    color: #fff;
+    border: 1px solid var(--fnaf-accent-red);
+    font-family: var(--font-accent);
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+form input[type="submit"]:hover {
+    background: var(--fnaf-accent-red);
+    box-shadow: 0 0 20px rgba(156, 28, 28, 0.6);
+}
