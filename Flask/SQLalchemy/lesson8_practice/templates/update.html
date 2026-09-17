@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Project Mayhem: Task Update{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <h2 class="page-subtitle">> MODIFY_ASSIGNMENT</h2>
+    <form method="POST" class="grunge-form">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title() }}
+        </div>
+
+        <div class="form-group">
+            {{ form.description.label }}
+            {{ form.description() }}
+        </div>
+
+        <div class="form-group">
+            {{ form.category.label }}
+            {{ form.category() }}
+        </div>
+
+        <div class="form-submit-block">
+            {{ form.submit(value="COMMIT CHANGES") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

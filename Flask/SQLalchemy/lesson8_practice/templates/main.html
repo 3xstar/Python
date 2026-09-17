@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+<div class="search-section">
+    <form action="/" method="POST" class="search-form">
+        <label for="search-input">Control Panel</label>
+        <div class="search-group">
+            <!-- Селект Категорий -->
+            <select id="search-input" name="search-request">
+                {% if search_data == 'all' %}
+                    <option value="all" selected>[ ALL CATEGORIES ]</option>
+                {% else %}
+                    <option value="all">[ ALL CATEGORIES ]</option>
+                {% endif %}
+
+                {% set categories = [
+                    ('education', 'Education'),
+                    ('sport', 'Sport'),
+                    ('work', 'Work'),
+                    ('home', 'Home'),
+                    ('other', 'Other')
+                ] %}
+
+                {% for val, label in categories %}
+                    {% if search_data == val %}
+                        <option value="{{ val }}" selected>{{ label }}</option>
+                    {% else %}
+                        <option value="{{ val }}">{{ label }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <!-- Новый Селект Статуса (Выполнено / Не выполнено) -->
+            <select id="status-input" name="status-request">
+                {% if status_data == 'all' %}
+                    <option value="all" selected>[ ALL STATUSES ]</option>
+                {% else %}
+                    <option value="all">[ ALL STATUSES ]</option>
+                {% endif %}
+
+                {% if status_data == 'open' %}
+                    <option value="open" selected>Open (In Progress)</option>
+                {% else %}
+                    <option value="open">Open (In Progress)</option>
+                {% endif %}
+
+                {% if status_data == 'completed' %}
+                    <option value="completed" selected>Done (Destroyed)</option>
+                {% else %}
+                    <option value="completed">Done (Destroyed)</option>
+                {% endif %}
+            </select>
+
+            <button type="submit">Filter</button>
+        </div>
+    </form>
+</div>
+
+
+<!-- Сетка для брутальных карточек задач -->
+<div class="task-grid">
+    {% for task in tasks %}
+    <!-- Принудительно отдаем класс completed, если task.done равен True -->
+    <div class="task-card {% if task.done %}completed{% endif %}">
+        <h2>{{ task.title }}</h2>
+        <span class="category-badge">{{ task.category }}</span>
+
+        <div class="task-actions">
+            {% if not task.done %}
+            <a href="/complete-task/{{ task.id }}">Complete</a>
+            {% endif %}
+            <a href="/task/{{ task.id }}">Open</a>
+            <a href="/edit-task/{{ task.id }}">Edit</a>
+            <a href="/delete-task/{{ task.id }}">Delete</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

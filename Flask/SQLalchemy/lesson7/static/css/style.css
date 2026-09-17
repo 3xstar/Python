@@ -1,0 +1,141 @@
+/* --- PROJECT FNAF: ULTIMATE REBOOT V2.0 --- */
+
+:root {
+    --fnaf-dark: #07070a;
+    --fnaf-purple: #1e122b;
+    --fnaf-deep-red: #3a0808;
+    --fnaf-accent-red: #9c1c1c;
+    --flashlight-gold: #f4ebd0;
+    --wallpaper-stripe: #111218;
+    --font-title: 'Cinzel', serif;
+    --font-accent: 'Oswald', sans-serif;
+    --font-main: 'Roboto', sans-serif;
+}
+
+/* Общий фон — жуткие полосатые обои спальни и виньетка */
+body {
+    background-color: var(--fnaf-dark);
+    background-image:
+        radial-gradient(circle, transparent 20%, rgba(0, 0, 0, 0.95) 85%),
+        linear-gradient(90deg, var(--fnaf-dark) 50%, var(--wallpaper-stripe) 50%);
+    background-size: cover, 40px 100%;
+    color: var(--flashlight-gold);
+    font-family: var(--font-main);
+    margin: 0; padding: 0;
+    min-height: 100vh;
+    background-attachment: fixed;
+}
+
+/* Навигация — верхняя грань экрана */
+nav {
+    background: #030305;
+    border-bottom: 2px solid var(--fnaf-deep-red);
+    padding: 20px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+nav div:first-child {
+    font-family: var(--font-title); font-weight: 800; font-size: 1.8rem;
+    color: #fff; letter-spacing: 4px; text-shadow: 0 0 10px rgba(156, 28, 28, 0.6);
+}
+
+nav div:last-child { display: flex; gap: 30px; }
+
+/* Полное уничтожение браузерного фиолетового цвета на ссылках */
+a, a:visited, a:active {
+    color: #666673; text-decoration: none; font-family: var(--font-accent);
+    font-weight: 500; font-size: 1.2rem; text-transform: uppercase;
+    letter-spacing: 2px; transition: all 0.25s ease;
+}
+nav a:hover { color: #fff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.8); }
+
+.container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+h1 {
+    font-family: var(--font-title); font-weight: 500; font-size: 2.4rem; color: #fff;
+    letter-spacing: 3px; margin-bottom: 30px; text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px;
+}
+
+h2 { font-family: var(--font-accent); font-weight: 700; font-size: 1.6rem; color: #fff; margin: 0 0 15px 0; text-transform: uppercase; }
+h5 { font-family: var(--font-accent); color: var(--fnaf-accent-red); font-weight: 500; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-bottom: 8px; }
+
+/* --- ПАНЕЛЬ ПОИСКА --- */
+.search-section {
+    background: #0c0d12; border: 1px solid #191b26; border-left: 4px solid var(--fnaf-accent-red);
+    padding: 25px; margin-bottom: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+}
+.search-form label { font-family: var(--font-accent); color: #fff; text-transform: uppercase; font-size: 1.1rem; margin-bottom: 10px; display: block; }
+.search-group { display: flex; gap: 15px; }
+.search-group input { flex: 1; }
+.search-group button {
+    background: var(--fnaf-deep-red); color: #fff; border: 1px solid var(--fnaf-accent-red);
+    font-family: var(--font-accent); text-transform: uppercase; padding: 0 25px; cursor: pointer; transition: all 0.2s;
+}
+.search-group button:hover { background: var(--fnaf-accent-red); box-shadow: 0 0 15px var(--fnaf-accent-red); }
+
+/* --- СЕТКА КАРТОЧЕК --- */
+.notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 30px; }
+
+.note-card {
+    background: linear-gradient(135deg, #14151f 0%, #0b0c12 100%);
+    color: #bbbbc7; border: 1px solid #202230; border-left: 4px solid var(--fnaf-deep-red);
+    padding: 30px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.note-card:hover {
+    border-color: rgba(244, 235, 208, 0.3); border-left-color: var(--fnaf-accent-red);
+    background: linear-gradient(135deg, #1a1b29 0%, #10111a 100%);
+    transform: translateY(-4px); box-shadow: 0 0 25px rgba(244, 235, 208, 0.08), 0 20px 40px rgba(0, 0, 0, 0.9);
+}
+
+/* --- КНОПКИ --- */
+.btn-group { display: flex; gap: 10px; margin-top: 25px; }
+.btn {
+    display: inline-block; padding: 10px 16px; font-family: var(--font-accent);
+    font-weight: 500; font-size: 0.9rem; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s ease; text-align: center; border-radius: 2px; box-sizing: border-box;
+}
+.btn-primary { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
+.btn-primary:hover { background: #fff; color: var(--fnaf-dark); box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+
+.btn-edit { background: transparent; color: #4E9F3D; border: 1px solid rgba(78, 159, 61, 0.4); }
+.btn-edit:hover { background: #4E9F3D; color: #000; box-shadow: 0 0 15px rgba(78, 159, 61, 0.4); border-color: #4E9F3D; }
+
+.btn-danger { background: #240a0a; color: #ff4545; border: 1px solid var(--fnaf-deep-red); }
+.btn-danger:hover { background: var(--fnaf-accent-red); color: #fff; box-shadow: 0 0 15px var(--fnaf-accent-red); border-color: #ff4545; }
+
+/* --- ОКНО ПРОСМОТРА ЗАМЕТКИ --- */
+.note-detail-panel {
+    background: #0c0d12; border: 1px solid #191b26; border-left: 6px solid var(--fnaf-accent-red);
+    padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+}
+.note-meta-item { margin-bottom: 30px; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 20px; }
+.note-content-text { font-size: 1.15rem; line-height: 1.6; color: #bbbbc7; }
+.control-actions { margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; }
+
+/* --- УНИВЕРСАЛЬНЫЕ ОКНА ФОРМ (ADD / UPDATE) --- */
+.form-wrapper { max-width: 600px; margin: 0 auto; }
+form { background: #0c0d12; padding: 40px; border: 1px solid #191b26; box-shadow: 0 25px 60px rgba(0,0,0,0.9); border-radius: 4px; }
+.form-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+form label { display: block; font-family: var(--font-accent); font-weight: 500; font-size: 1.1rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Принудительный фикс полей ввода и текстовой зоны TEXTAREA */
+form input[type="text"], form textarea {
+    display: block !important; width: 100% !important; padding: 16px !important;
+    background: #050508 !important; border: 1px solid #202230 !important; color: var(--flashlight-gold) !important;
+    font-size: 1.05rem !important; font-family: var(--font-main) !important; box-sizing: border-box !important;
+    border-radius: 2px !important; transition: all 0.2s !important;
+}
+form textarea { min-height: 160px !important; resize: vertical !important; }
+form input[type="text"]:focus, form textarea:focus { outline: none; border-color: var(--fnaf-accent-red) !important; background: #090a0f !important; box-shadow: 0 0 12px rgba(156, 28, 28, 0.4) !important; }
+
+/* Сабмит кнопка */
+.form-submit-block { width: 100%; }
+form input[type="submit"] {
+    width: 100% !important; padding: 16px !important; background: var(--fnaf-deep-red) !important; color: #fff !important;
+    border: 1px solid var(--fnaf-accent-red) !important; font-family: var(--font-accent) !important; font-size: 1.2rem !important;
+    font-weight: 500 !important; letter-spacing: 2px !important; cursor: pointer !important; text-transform: uppercase !important; transition: all 0.2s !important;
+}
+form input[type="submit"]:hover { background: var(--fnaf-accent-red) !important; box-shadow: 0 0 20px rgba(156, 28, 28, 0.6) !important; }

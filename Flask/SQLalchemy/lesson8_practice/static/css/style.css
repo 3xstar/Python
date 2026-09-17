@@ -1,0 +1,193 @@
+/* --- PROJECT MAYHEM CONTROL PANEL: ALIVE & KICKING V4.0 --- */
+
+@import url('https://googleapis.com');
+
+:root {
+    --night-sky: #0d0e11;
+    --concrete-gray: #1a1b20;
+    --leather-jacket: #8b0000;
+    --blood-neon: #ff1e1e;
+    --soap-neon: #ff3399;
+    --grunge-white: #e4e7eb;
+    --border-gray: #4a4d56;
+    --acid-green: #39ff14;
+    --matrix-dark: #0f2410;
+    --army-green: #1b3d1d;
+    --neon-glow-pink: rgba(255, 51, 153, 0.35);
+    --neon-glow-green: rgba(57, 255, 20, 0.25);
+
+    /* Кривая для плавных брутальных GPU-переходов */
+    --transition-grunge: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* --- ОБЩИЕ НАСТРОЙКИ ФОНА И ЭКРАНА --- */
+body {
+    background-color: var(--night-sky);
+    color: var(--grunge-white);
+    font-family: 'Courier Prime', monospace;
+    margin: 0; padding: 0;
+    background-image: linear-gradient(rgba(13,14,17,.94), rgba(13,14,17,.94)), url('https://transparenttextures.com');
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* ЭЛТ-сканлайны */
+body::before {
+    content: " ";
+    display: block; position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,.15) 50%);
+    z-index: 9999; background-size: 100% 4px;
+    pointer-events: none;
+}
+
+.app-wrapper { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+
+/* Уничтожаем фиолетовый цвет ссылок браузера */
+a, a:visited, a:active {
+    color: var(--grunge-white); text-decoration: none;
+    text-transform: uppercase; font-weight: bold;
+    transition: transform 0.3s var(--transition-grunge), color 0.3s var(--transition-grunge), box-shadow 0.3s var(--transition-grunge), border-color 0.3s var(--transition-grunge);
+    will-change: transform, color, box-shadow;
+}
+
+/* --- ЖИВОЙ ИНДУСТРИАЛЬНЫЙ ЛОГОТИП С ГЛИТЧЕМ --- */
+.main-header {
+    border-bottom: 3px double var(--leather-jacket);
+    padding-bottom: 20px; margin-bottom: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.logo-title {
+    font-family: 'Impact', sans-serif; font-size: 3.5rem;
+    text-transform: uppercase; color: #fff; letter-spacing: 1px; margin: 0;
+    text-shadow: -3px -3px 0 var(--leather-jacket), 3px 3px 0 var(--soap-neon), 5px 5px 0 #000;
+    animation: neon-flicker 3s infinite alternate;
+}
+
+/* Эффект аналогового сбоя при наведении на заголовок */
+.logo-title:hover {
+    animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+}
+
+.nav-links { display: flex; gap: 15px; }
+.nav-links a { border: 2px solid var(--border-gray); padding: 8px 16px; background: #000; font-size: 0.85rem; box-shadow: 3px 3px 0px #000; }
+.nav-links a:hover {
+    color: #fff; border-color: var(--soap-neon);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px var(--leather-jacket), 0 0 15px var(--neon-glow-pink);
+}
+.nav-links .btn-new-task { background: var(--leather-jacket); border-color: var(--blood-neon); }
+.nav-links .btn-new-task:hover { background: var(--soap-neon); color: #000; border-color: var(--soap-neon); }
+
+.page-subtitle {
+    font-family: 'Special Elite', serif; color: var(--soap-neon);
+    font-size: 1.4rem; margin-bottom: 25px; text-shadow: 2px 2px 0px #000;
+}
+
+/* --- ПАНЕЛЬ ФИЛЬТРОВ И ДИНАМИЧЕСКИЕ ПОЛЯ --- */
+.search-section {
+    background: var(--concrete-gray); border: 2px solid #000;
+    border-top: 4px solid var(--leather-jacket); padding: 25px; margin-bottom: 45px; box-shadow: 8px 8px 0px #000;
+    transition: transform 0.3s var(--transition-grunge), box-shadow 0.3s var(--transition-grunge);
+}
+.search-section:focus-within {
+    transform: translateY(-2px); box-shadow: 10px 10px 0px var(--leather-jacket);
+}
+.search-form label { font-family: 'Special Elite', serif; color: var(--soap-neon); display: block; margin-bottom: 15px; font-size: 1.1rem; }
+.search-group { display: flex; gap: 15px; }
+
+.search-group select, .grunge-form input[type="text"], .grunge-form textarea, .grunge-form select {
+    display: block !important; width: 100% !important; background: #000 !important;
+    border: 2px solid var(--border-gray) !important; color: #fff !important; padding: 14px !important;
+    font-family: 'Courier Prime', monospace !important; font-size: 1rem !important;
+    box-sizing: border-box !important; border-radius: 0px !important;
+    transition: border-color 0.3s var(--transition-grunge), box-shadow 0.3s var(--transition-grunge), background 0.3s var(--transition-grunge);
+}
+
+.search-group select, .grunge-form select {
+    cursor: pointer !important; -webkit-appearance: none; -moz-appearance: none; appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://w3.org'><path d='M7 10l5 5 5-5z'/></svg>") !important;
+    background-repeat: no-repeat !important; background-position: right 15px center !important; padding-right: 40px !important;
+}
+
+.search-group select:focus, .grunge-form input:focus, .grunge-form textarea:focus, .grunge-form select:focus {
+    outline: none !important; border-color: var(--soap-neon) !important; background: #050507 !important;
+    box-shadow: 0 0 15px var(--neon-glow-pink) !important;
+}
+
+.search-group button {
+    background: var(--leather-jacket); color: #fff; border: 2px solid var(--blood-neon);
+    padding: 0 30px; font-family: 'Special Elite', serif; font-size: 1rem; cursor: pointer;
+    box-shadow: 4px 4px 0px #000; transition: var(--transition-grunge);
+}
+.search-group button:hover { background: var(--soap-neon); color: #000; border-color: var(--soap-neon); transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #000; }
+
+/* --- МОНОЛИТНЫЕ ОКНА ОПЕРАЦИЙ (ADD / UPDATE) --- */
+.form-wrapper {
+    background: var(--concrete-gray); border: 2px solid #000; border-left: 6px solid var(--leather-jacket);
+    padding: 40px; margin: 40px auto; max-width: 550px; box-shadow: 10px 10px 0px #000; box-sizing: border-box;
+    transition: box-shadow 0.4s var(--transition-grunge);
+}
+.form-wrapper:hover { box-shadow: 12px 12px 0px var(--leather-jacket); }
+.grunge-form { display: flex; flex-direction: column; gap: 20px; }
+.form-group { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.form-group label { font-family: 'Special Elite', serif; color: var(--soap-neon); font-size: 1rem; text-transform: uppercase; }
+.grunge-form textarea { min-height: 140px; resize: vertical; }
+
+.form-submit-block input[type="submit"] {
+    width: 100%; background: var(--leather-jacket); color: #fff; border: 2px solid var(--blood-neon);
+    padding: 16px; font-family: 'Special Elite', serif; font-size: 1.1rem; text-transform: uppercase;
+    cursor: pointer; box-shadow: 6px 6px 0px #000; transition: var(--transition-grunge);
+}
+.form-submit-block input[type="submit"]:hover { background: var(--soap-neon); color: #000; border-color: var(--soap-neon); transform: translateY(-2px); box-shadow: 8px 8px 0px #000, 0 0 15px var(--neon-glow-pink); }
+
+/* --- ГЛАВНАЯ СТРАНИЦА: СЕТКА КАРТОЧЕК И ПЛАВНОСТЬ --- */
+.task-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+
+.task-card {
+    background: var(--concrete-gray); border: 2px solid #000; border-top: 4px solid var(--border-gray);
+    padding: 20px; display: flex; flex-direction: column; justify-content: space-between;
+    box-shadow: 6px 6px 0px #000; transition: transform 0.3s var(--transition-grunge), box-shadow 0.3s var(--transition-grunge), border-color 0.3s var(--transition-grunge);
+    position: relative;
+}
+.task-card:hover:not(.completed) {
+    transform: translate(-4px, -4px); box-shadow: 10px 10px 0px #000, 0 0 15px var(--neon-glow-pink); border-top-color: var(--soap-neon);
+}
+.task-card h2 { margin: 0 0 10px 0; color: #fff; font-size: 1.4rem; }
+
+.category-badge {
+    display: inline-block; background: #000; color: var(--soap-neon); font-size: 0.75rem;
+    padding: 3px 8px; border: 1px dashed var(--border-gray); text-transform: uppercase;
+}
+
+.task-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; border-top: 1px solid var(--border-gray); padding-top: 15px; }
+.task-actions a { text-align: center; font-size: 0.75rem; padding: 6px; border: 1px solid var(--border-gray); background: #000; }
+.task-actions a:hover { background: #fff; color: #000; transform: scale(1.05); box-shadow: 0 0 8px rgba(255,255,255,0.4); }
+
+/* --- ФИКС: ТОКСИЧНАЯ ЗЕЛИМОВАЯ ПОДСВЕТКА ДЛЯ ВЫПОЛНЕННЫХ КАРТОЧЕК НА ГЛАВНОЙ --- */
+.task-card.completed {
+    background: var(--matrix-dark) !important;
+    border-color: #000 !important;
+    border-top: 4px solid var(--acid-green) !important; /* Зелёный неон сверху */
+    box-shadow: 4px 4px 0px #000 !important;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(57, 255, 20, 0.02) 10px, rgba(57, 255, 20, 0.02) 20px) !important;
+    opacity: 0.9 !important; /* Убираем сильную тусклость */
+}
+.task-card.completed:hover {
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 7px 7px 0px #000, 0 0 15px var(--neon-glow-green) !important; /* Зелёный ореол вокруг */
+}
+.task-card.completed h2 { color: #81a883 !important; text-decoration: line-through; }
+.task-card.completed .category-badge { color: var(--acid-green) !important; border-color: var(--army-green) !important; }
+.task-card.completed .task-actions a { border-color: var(--army-green); color: #81a883; }
+.task-card.completed .task-actions a:hover { background: var(--acid-green); color: #000; border-color: var(--acid-green); }
+
+/* --- СТРАНИЦА ПРОСМОТРА ОДНОЙ ЗАДАЧИ --- */
+.task-detail-panel {
+    background: var(--concrete-gray); border: 2px solid #000; border-left: 6px solid var(--soap-neon);
+    padding: 40px; box-shadow: 10px 10px 0px #000; transition: var(--transition-grunge);
+}
+
+.task-meta-item { margin-bottom: 25px; border-bottom: 1px dashed var(--border-gray); padding-bottom: 15px; }.task-meta-label { font-family: 'Special Elite', serif; color: var(--soap-neon); font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 8px; }.task-meta-value { font-size: 1.3rem; color: #fff; margin: 0; }.task-meta-value.desc { font-size: 1.1rem; color: var(--grunge-white); line-height: 1.5; }.status-indicator { display: inline-block; padding: 4px 12px; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }.status-indicator.active-status { background: var(--leather-jacket); color: #fff; border: 1px solid var(--blood-neon); }.status-indicator.destroyed-status { background: #222; color: var(--border-gray); border: 1px solid var(--border-gray); }.control-actions { display: flex; gap: 15px; margin-top: 35px; border-top: 2px dashed var(--border-gray); padding-top: 25px; }.control-actions a { padding: 10px 20px; border: 2px solid var(--border-gray); background: #000; font-size: 0.85rem; text-align: center; box-shadow: 3px 3px 0px #000; }.control-actions a:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0px #000; }.control-actions a.ret-btn:hover { background: #fff; color: #000; border-color: #fff; }.control-actions a.edit-btn { border-color: #4E9F3D; color: #4E9F3D; }.control-actions a.edit-btn:hover { background: #4E9F3D; color: #000; border-color: #4E9F3D; box-shadow: 6px 6px 0px #000, 0 0 10px rgba(78,159,61,0.4); }.control-actions a.del-btn { border-color: var(--blood-neon); color: var(--blood-neon); }.control-actions a.del-btn:hover { background: var(--leather-jacket); color: #fff; border-color: var(--blood-neon); box-shadow: 6px 6px 0px #000, 0 0 10px rgba(255,30,30,0.4); }/* ЗЕЛЕНАЯ ЗЕРНИСТАЯ ПАНЕЛЬ ПРОСМОТРА С ПУЛЬСАЦИЕЙ */.task-detail-panel.completed {background: var(--matrix-dark) !important; border-left: 6px solid var(--acid-green) !important;background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(57, 255, 20, 0.02) 8px, rgba(57, 255, 20, 0.02) 16px), linear-gradient(rgba(15, 36, 16, 0.94), rgba(15, 36, 16, 0.94)), url('transparenttextures.com') !important;}.task-detail-panel.completed .page-subtitle, .task-detail-panel.completed .task-meta-label { color: var(--acid-green) !important; }.task-detail-panel.completed .task-meta-value { color: #a3cfa5 !important; }.task-detail-panel.completed .task-meta-value.desc { color: #81a883 !important; border-left: 2px solid var(--army-green); padding-left: 10px; }.task-detail-panel.completed .category-badge { color: var(--acid-green) !important; border-color: var(--army-green) !important; background: #050d06 !important; }.task-detail-panel.completed .status-indicator.destroyed-status {background: var(--army-green) !important; color: #fff !important; border: 1px solid var(--acid-green) !important;animation: neon-pulse-green 1.5s infinite alternate;}/* --- ВЫСОКОПРОИЗВОДИТЕЛЬНЫЕ АНИМАЦИИ (GPU) --- */@keyframes neon-flicker {0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { text-shadow: -3px -3px 0 var(--leather-jacket), 3px 3px 0 var(--soap-neon), 5px 5px 0 #000; }20%, 24%, 55% { text-shadow: none; color: #888; }}@keyframes neon-pulse-green {0% { box-shadow: 0 0 2px var(--army-green); opacity: 0.85; }100% { box-shadow: 0 0 15px var(--acid-green); opacity: 1; }}@keyframes glitch {0% { transform: translate(0); }20% { transform: translate(-2px, 2px); }40% { transform: translate(-2px, -2px); }60% { transform: translate(2px, 2px); }80% { transform: translate(2px, -2px); }100% { transform: translate(0); }}

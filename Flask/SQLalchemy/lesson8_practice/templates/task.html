@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Project Mayhem: Task Details{% endblock %}
+
+{% block content %}
+<!-- Если задача выполнена, добавляем класс completed -->
+<div class="task-detail-panel {% if task.done %}completed{% endif %}">
+    <h2 class="page-subtitle">> INSPECTING_OBJECT_{{ task.id }}</h2>
+
+    <div class="task-meta-item">
+        <span class="task-meta-label">Assignment Title</span>
+        <h3 class="task-meta-value">{{ task.title }}</h3>
+    </div>
+
+    <div class="task-meta-item">
+        <span class="task-meta-label">Destructive Details / Description</span>
+        <p class="task-meta-value desc">{{ task.description }}</p>
+    </div>
+
+    <div class="task-meta-item">
+        <span class="task-meta-label">Operation Status</span>
+        {% if task.done %}
+            <span class="status-indicator destroyed-status">DESTROYED / DONE</span>
+        {% else %}
+            <span class="status-indicator active-status">ACTIVE / IN PROGRESS</span>
+        {% endif %}
+    </div>
+
+    <div class="task-meta-item">
+        <span class="task-meta-label">Operational Area / Category</span>
+        <span class="category-badge">{{ task.category }}</span>
+    </div>
+
+    <div class="control-actions">
+        <a href="/" class="ret-btn">&lt; Back to Base</a>
+        <a href="/edit-task/{{ task.id }}" class="edit-btn">Modify Task</a>
+        <a href="/delete-task/{{ task.id }}" class="del-btn">Erase Task</a>
+    </div>
+</div>
+{% endblock %}

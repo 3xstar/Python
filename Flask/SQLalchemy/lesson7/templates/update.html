@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Note Editing{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <h1>Edit Note</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title() }}
+        </div>
+
+        <div class="form-group">
+            {{ form.content.label }}
+            {{ form.content() }}
+        </div>
+
+        <div class="form-submit-block">
+            {{ form.submit(value="Commit Changes") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Note Creating{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <h1>New Note</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(placeholder="Enter scary title...") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.content.label }}
+            {{ form.content(placeholder="Write down the details before they vanish...") }}
+        </div>
+
+        <div class="form-submit-block">
+            {{ form.submit(value="Save Note") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

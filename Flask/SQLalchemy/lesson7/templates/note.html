@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{{ note.title }}{% endblock %}
+
+{% block content %}
+<div class="note-detail-panel">
+    <div class="note-meta-item">
+        <h5>Title</h5>
+        <h1>{{ note.title }}</h1>
+    </div>
+
+    <div class="note-meta-item">
+        <h5>Description / Content</h5>
+        <div class="note-content-text">{{ note.content }}</div>
+    </div>
+
+    <div class="btn-group control-actions">
+        <a href="/" class="btn btn-primary">&lt; Return</a>
+        <a href="/edit-note/{{ note.id }}" class="btn btn-edit">Edit note</a>
+        <a href="/delete-note/{{ note.id }}" class="btn btn-danger">Delete completely</a>
+    </div>
+</div>
+{% endblock %}
