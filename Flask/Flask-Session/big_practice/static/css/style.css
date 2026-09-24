@@ -1,0 +1,286 @@
+/* Подключение пиксельного ретро-шрифта */
+@import url('https://googleapis.com');
+
+:root {
+    --bg-color: #1a0536;         /* Сделали фон светлее и насыщеннее (фиолетовый неон) */
+    --panel-bg: #280f47;         /* Панели стали более открытыми и сочными */
+    --neon-purple: #f43f5e;      /* Сдвинули к неоново-розовому для бешеного контраста */
+    --contrast-yellow: #ffff00;  /* Оставляем ядовито-желтый */
+    --contrast-cyan: #00ffff;    /* Оставляем ультра-циановый */
+    --accent-green: #39ff14;
+    --text-main: #ffffff;
+}
+
+/* --- ОБНОВЛЕННЫЙ ЯРКИЙ ПИКСЕЛЬНЫЙ ФОН --- */
+body {
+    background-color: var(--bg-color);
+    /* Сетка теперь ярче, а фиолетовый градиент снизу больше не уходит в черноту */
+    background-image:
+        linear-gradient(rgba(217, 70, 239, 0.15) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(217, 70, 239, 0.15) 2px, transparent 2px),
+        linear-gradient(180deg, rgba(217, 70, 239, 0.2) 0%, rgba(26, 5, 54, 0.5) 100%);
+    background-size: 32px 32px, 32px 32px, 100% 100%;
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text-main);
+    margin: 0; padding: 0;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    animation: bgScroll 15s linear infinite;
+}
+
+/* --- ОБЛЕГЧЕННЫЙ CRT-ЭФФЕКТ (БЕЗ ТЕМНОТЫ) --- */
+body::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    /* Убрали глухое черное затемнение на 50%, оставили только тонкие неоновые искажения линий */
+    background: linear-gradient(rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.12) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
+    z-index: 9999;
+    background-size: 100% 4px, 4px 100%;
+    pointer-events: none;
+}
+
+
+/* Бегущая сверху вниз световая полоса помехи */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    filter: blur(4px);
+    pointer-events: none;
+    z-index: 10000;
+    animation: scanline 4s linear infinite;
+}
+
+@keyframes scanline {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+}
+
+
+/* --- НАВИГАЦИЯ (ВЫБОР УРОВНЯ / РЕЖИМА) --- */
+nav {
+    position: absolute;
+    top: 30px;
+    display: flex;
+    gap: 25px;
+    z-index: 10;
+}
+
+nav a {
+    background: var(--panel-bg);
+    border: 4px solid #fff;
+    color: var(--text-main) !important;
+    padding: 12px 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 11px;
+    box-shadow: 6px 6px 0px var(--neon-purple);
+    transform: translate(0, 0);
+    transition: all 0.1s ease;
+}
+
+nav a:hover {
+    box-shadow: 0px 0px 0px transparent;
+    transform: translate(6px, 6px);
+    background: var(--contrast-cyan);
+    color: #000 !important;
+    border-color: #000;
+}
+
+
+/* --- КОРПУС ИГРОВОГО АВТОМАТА (КОНТЕЙНЕР) --- */
+.game-container {
+    background: var(--panel-bg);
+    border: 6px solid #fff;
+    /* Тройная контрастная неоновая тень */
+    box-shadow: 12px 12px 0px var(--neon-purple),
+                -12px -12px 0px var(--contrast-cyan),
+                0 0 40px rgba(217, 70, 239, 0.3);
+    padding: 45px 35px;
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+    margin-top: 80px;
+    position: relative;
+    /* Анимация "включения" экрана при загрузке страницы */
+    animation: cabinetTurnOn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes cabinetTurnOn {
+    0% { transform: scaleX(0) scaleY(0.01); filter: brightness(3); }
+    50% { transform: scaleX(1) scaleY(0.01); filter: brightness(3); }
+    100% { transform: scaleX(1) scaleY(1); filter: brightness(1); }
+}
+
+
+/* --- УЛЬТРА-КОНТРАСТНЫЙ ГЛИТЧ-ЗАГОЛОВОК --- */
+h1 {
+    color: var(--contrast-yellow);
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 24px;
+    margin: 0 0 40px 0;
+    letter-spacing: 3px;
+    position: relative;
+    animation: fnfTitleGlitch 1.8s infinite steps(1);
+}
+
+@keyframes fnfTitleGlitch {
+    0%, 93%, 98%, 100% { text-shadow: 4px 4px 0px var(--neon-purple); transform: skew(0deg) scale(1); }
+    94% { text-shadow: -4px -4px 0px var(--contrast-cyan), 4px 4px 0px var(--neon-purple); transform: skew(5deg) scale(1.03); color: #fff; }
+    96% { text-shadow: 4px -4px 0px var(--accent-green), -4px 4px 0px var(--contrast-yellow); transform: skew(-5deg) scale(0.97); }
+    99% { text-shadow: -3px 3px 0px var(--contrast-cyan), 3px -3px 0px var(--accent-green); transform: translateX(3px); }
+}
+
+
+/* --- ПОЛЯ ФОРМЫ (ИНТЕРАКТИВНЫЙ ОТКЛИК) --- */
+form p {
+    margin: 0 0 30px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    color: var(--contrast-cyan);
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+    transition: color 0.15s ease;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    background: #000000;
+    border: 4px solid var(--neon-purple);
+    padding: 16px;
+    color: #fff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    transition: transform 0.1s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* При фокусе поле "вжимается" наружу и загорается неоном */
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+    border-color: var(--contrast-yellow);
+    box-shadow: 0 0 20px var(--contrast-yellow), inset 0 0 10px rgba(255,255,0,0.3);
+    transform: scale(1.03);
+}
+
+p:focus-within label {
+    color: var(--contrast-yellow);
+    text-shadow: 2px 2px 0px #000;
+}
+
+
+/* --- КНОПКИ АРКАДНОГО АВТОМАТА --- */
+form input[type="submit"], .btn-logout {
+    background: var(--contrast-yellow);
+    border: 4px solid #fff;
+    color: #000000;
+    font-weight: bold;
+    padding: 18px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    /* Массивный 3D-эффект кнопки */
+    box-shadow: 0 8px 0px #b3a200, 0 15px 20px rgba(0,0,0,0.5);
+    will-change: transform, box-shadow;
+    transition: all 0.1s ease;
+}
+
+form input[type="submit"]:hover, .btn-logout:hover {
+    background: #ffffff;
+    border-color: #000;
+    box-shadow: 0 8px 0px var(--contrast-cyan), 0 0 25px rgba(255,255,255,0.6);
+}
+
+/* Прожимание кнопки точь-в-точь как в ритм-играх */
+form input[type="submit"]:active, .btn-logout:active {
+    transform: translateY(8px);
+    box-shadow: 0 0px 0px transparent, 0 0 10px var(--contrast-cyan);
+}
+
+
+/* --- ССЫЛКИ И ОШИБКИ ВНИЗУ ЭКРАНА --- */
+.form-redirect {
+    color: var(--contrast-cyan);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 11px;
+    display: block;
+    margin-top: 30px;
+    text-align: center;
+    transition: color 0.1s ease;
+}
+
+.form-redirect:hover {
+    color: var(--contrast-yellow);
+    animation: linkVibrate 0.1s steps(2) infinite;
+}
+
+@keyframes linkVibrate {
+    0% { transform: translate(2px, -1px); text-shadow: -2px 0 var(--neon-purple); }
+    100% { transform: translate(-2px, 1px); text-shadow: 2px 0 var(--contrast-cyan); }
+}
+
+/* Мигающие неоновые ошибки вадилации */
+.error-list, .message-alert {
+    color: var(--accent-green) !important;
+    font-size: 9px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    list-style: none;
+    padding: 0;
+    animation: errorFlicker 0.4s infinite alternate steps(2);
+}
+
+@keyframes errorFlicker {
+    0% { opacity: 0.4; text-shadow: none; }
+    100% { opacity: 1; text-shadow: 0 0 12px var(--accent-green); }
+}
+
+
+/* --- СУПЕРПЛАВНЫЙ И КРУПНЫЙ ПРОФИЛЬ (GPU ФИЛЬТРЫ) --- */
+.profile-card p {
+    font-size: 16px;
+    border-left: 6px solid var(--contrast-yellow);
+    padding: 12px 0 12px 24px;
+    margin: 0 0 30px 0;
+    color: #ffffff;
+    text-transform: uppercase;
+
+    /* Аппаратная плавная анимация появления без фризов */
+    filter: opacity(0);
+    will-change: filter;
+    animation: smoothFadeIn 0.5s ease-out forwards;
+}
+
+.profile-card p strong {
+    color: var(--contrast-cyan);
+    display: inline-block;
+    margin-right: 12px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+.profile-card p:nth-child(1) { animation-delay: 0.15s; }
+.profile-card p:nth-child(2) { animation-delay: 0.45s; }
+
+@keyframes smoothFadeIn {
+    to { filter: opacity(1); }
+}

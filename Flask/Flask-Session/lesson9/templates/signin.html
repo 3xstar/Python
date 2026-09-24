@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask-WTF Form</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { padding: 8px; width: 300px; }
+        .error { color: red; font-size: 0.9em; }
+        button { padding: 10px 20px; background: blue; color: white; border: none; cursor: pointer; }
+        .message { color: green; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/signup">Registration</a>
+        </nav>
+    </header>
+
+    <h1>Authorization</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}  <!-- Защита CSRF -->
+
+        <div class="form-group">
+            {{ form.email.label }}
+            {{ form.email(size=30) }}
+            {% for error in form.email.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        {{ form.submit() }}
+    </form>
+</body>
+</html>
