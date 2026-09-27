@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Weather-City{% endblock %}
+
+{% block content %}
+<h1>Enter City name</h1>
+
+<form method="POST" action="{{ url_for('weather') }}">
+    {{ form.hidden_tag() }}
+
+    {% if message %}
+        <div class="message-alert">{{ message }}</div>
+    {% endif %}
+
+    <p>
+        {{ form.city.label }} <br>
+        {{ form.city(size=30, placeholder="Tokyo, Moscow...") }}
+
+        {% if form.city.errors %}
+            <ul class="error-list">
+            {% for error in form.city.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </p>
+
+    {{ form.submit() }}
+</form>
+
+{% endblock %}
