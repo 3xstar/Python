@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Shopping Cart</h1>
+
+        {% if not items %}
+            <div class="product-card" style="text-align: center; width: auto;">
+                <p style="font-size: 16px; color: #94a3b8; margin: 20px 0;">Your cart is empty. But our catalog is full of great deals! 😊</p>
+                <a href="{{ url_for('index') }}" class="nav-link" style="margin-bottom: 0;">Back to Catalog</a>
+            </div>
+        {% else %}
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td><strong>{{ item.name }}</strong></td>
+                        <td>${{ item.price }}</td>
+                        <td>{{ item.quantity }} pcs</td>
+                        <td>${{ item.item_sum }}</td>
+                        <td>
+                            <a href="{{ url_for('delete_item', product_id=item.id) }}" class="btn-remove">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="summary-box">
+                <h3>Cart Summary</h3>
+                <p>Unique Positions: <strong>{{ unique_items }}</strong></p>
+                <p>Total Items: <strong>{{ total_items }}</strong></p>
+                <p>Estimated Total: <strong>${{ total_sum }}</strong></p>
+            </div>
+
+            <a href="{{ url_for('clear_cart') }}" onclick="return confirm('Are you sure you want to clear your cart?');" class="btn-clear">Clear Cart</a>
+            <br><br>
+            <a href="{{ url_for('index') }}" class="nav-link">Continue Shopping</a>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini-Shop Catalog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Product Catalog</h1>
+        <div style="margin-bottom: 30px;">
+            <a href="{{ url_for('view_cart') }}" class="nav-link">Go to Cart 🛒</a>
+        </div>
+
+        <div class="catalog-container">
+            {% for id, item in products.items() %}
+            <div class="product-card">
+                <div>
+                    <h3>{{ item.name }}</h3>
+                    <p>Category: {{ item.category }}</p>
+                </div>
+                <div>
+                    <div class="price">${{ item.price }}</div>
+                    <a href="{{ url_for('add_to_cart', product_id=id) }}" class="btn-add">Add to Cart</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

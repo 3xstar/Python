@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+        {% if movies %}
+            <div class="movies-grid">
+                {% for id, movie in movies.items() %}
+
+                <a href="/movie/{{id}}" class="movie-card">
+
+                    <div class="movie-img-wrapper">
+                        {% if movie.rating >= 8.5 %}
+                            <span class="badge-top">⭐ Топ</span>
+                        {% endif %}
+                        <img src="{{movie.image}}" alt="{{movie.name}}" loading="lazy">
+                    </div>
+
+                    <div class="movie-info">
+                        <div class="movie-title">{{loop.index}}. {{movie.name}}</div>
+                        <div class="movie-rating-text">IMDb: {{ movie.rating }}</div>
+                    </div>
+
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-catalog">
+            <div class="empty-icon">🎬</div>
+            <h2>Каталог пуст</h2>
+            <p>Все режиссерские кресла свободны. Загляните на съемочную площадку позже.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

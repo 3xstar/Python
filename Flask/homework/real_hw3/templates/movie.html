@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    {% if movie_id|int in movies %}
+
+    <div class="movie-detail-container">
+        <img class="movie-detail-poster" src="{{movie.image}}" alt="{{movie.name}}">
+
+        <div class="movie-detail-info">
+            <a href="/" class="btn-back">← Вернуться к фильмам</a>
+            <h1 class="movie-detail-title">{{movies[movie_id|int].name}}</h1>
+            <p class="movie-detail-desc"><strong>Описание:</strong> {{movies[movie_id|int].description}}</p>
+        </div>
+    </div>
+
+    {% endif %}
+</div>
+{% endblock %}

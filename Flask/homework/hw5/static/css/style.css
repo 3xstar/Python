@@ -1,0 +1,260 @@
+/* Живая анимация переливов воды фонтана и бликов на сером мраморе пола ТЦ */
+@keyframes fountain-waves {
+    0% {
+        background-position: 0px 0px, 0px 0px, 0% 50%, 100% 50%;
+    }
+    50% {
+        background-position: 0px 0px, 0px 0px, 100% 50%, 0% 50%;
+    }
+    100% {
+        background-position: 0px 0px, 0px 0px, 0% 50%, 100% 50%;
+    }
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+    /* Комфортная приглушенная серо-мраморная основа стен молла */
+    background-color: #e5e7eb;
+    color: #1c1c1e;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ТОТ САМЫЙ ОЖИВШИЙ СЛОЙ: Движущаяся сетка ТЦ + играющие блики воды фонтана (На GPU) */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+
+    /* Чёткая решетка плитки ТЦ + мягкие, плавно переливающиеся бирюзовые блики атриума */
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+        radial-gradient(circle at 15% 25%, rgba(168, 218, 220, 0.45) 0px, transparent 65%),
+        radial-gradient(circle at 85% 75%, rgba(200, 225, 225, 0.6) 0px, transparent 65%);
+
+    /* Первые два значения удерживают размер плитки, вторые два — растягивают воду для переливов */
+    background-size: 50px 50px, 50px 50px, 200% 200%, 200% 200%;
+
+    /* Оживляем фон на полную мощность */
+    animation: fountain-waves 14s ease-in-out infinite;
+
+    /* Абсолютная оптимизация: переносим нагрузку на видеокарту, скролл не лагает */
+    transform: translateZ(0);
+    will-change: background-position;
+}
+
+/* Мягкое затемнение по краям экрана для создания глубины торговых рядов */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.04) 100%);
+    pointer-events: none;
+}
+
+.container {
+    max-width: 850px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    margin-bottom: 30px;
+    color: #1c1c1e;
+}
+
+/* Кнопка навигации (глянцевый указатель над эскалатором) */
+.nav-link {
+    display: inline-flex;
+    background: #f3f4f6;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #007aff;
+    padding: 12px 24px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.nav-link:hover {
+    transform: translateY(-1px);
+    border-color: #007aff;
+    background-color: #ffffff;
+}
+
+/* Сетка каталога */
+.catalog-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+/* Светло-серая карточка-виджет Apple-style (матовый плотный пластик витрин) */
+.product-card {
+    background: #f9fafb;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    transform: translateZ(0);
+}
+
+.product-card:hover {
+    border-color: #457b9d;
+    box-shadow: 0 8px 20px rgba(69, 123, 157, 0.12);
+    transform: translateY(-2px);
+}
+
+.product-card h3 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1c1c1e;
+    letter-spacing: -0.3px;
+}
+
+.product-card p {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1c1c1e;
+    margin: 15px 0 0 0;
+}
+
+/* Кнопка добавления */
+.btn-add {
+    display: block;
+    background-color: #1c1c1e;
+    color: #ffffff;
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    margin-top: 16px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-add:hover {
+    background-color: #007aff;
+}
+
+.btn-add:active {
+    transform: scale(0.97);
+}
+
+/* Аккуратная таблица корзины */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9fafb;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+}
+
+.cart-table th, .cart-table td {
+    padding: 18px;
+    text-align: left;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.cart-table th {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.btn-remove {
+    color: #ff3b30;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ОБНОВЛЕННЫЙ ПРЕМИАЛЬНЫЙ ВИДЖЕТ: Стильный белый глянцевый дизайн Apple iOS */
+.summary-box {
+    margin-top: 30px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 22px; /* Фирменное глубокое скругление Apple */
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.02); /* Легкая воздушная тень */
+}
+
+.summary-box h3 {
+    margin: 0 0 18px 0;
+    font-size: 13px;
+    color: #007aff; /* Акцентный синий iOS для заголовка */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.summary-box p {
+    margin: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: #3a3a3c;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.04); /* Тонкие разделительные линии */
+    padding-bottom: 8px;
+}
+
+.summary-box p:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-top: 18px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+/* Выделение итоговой суммы */
+.summary-box p:last-of-type strong {
+    color: #007aff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.btn-clear {
+    display: inline-block;
+    margin-top: 20px;
+    color: #ff3b30;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+}

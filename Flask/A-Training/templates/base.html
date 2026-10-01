@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - A-Training</title>
+
+    <!-- 🛡️ МОМЕНТАЛЬНАЯ СИНХРОНИЗАЦИЯ ЗОНЫ СКОРОСТИ -->
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem("a-train-theme") || "neon";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+        })();
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- ⚡ High-Speed Navigation Panel -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ url_for('index') }}" class="logo-text">
+                A-Training
+            </a>
+            <div class="nav-links">
+                <!-- Тумблер переключения зон телеметрии -->
+                <button id="theme-toggle" class="theme-toggle-btn" title="Switch Theme">⚡</button>
+
+                {% if session.get('user_id') %}
+                    <span style="font-size: 13px; color: var(--text-muted);">
+                        Racer: <strong style="color: var(--text-main);">{{ session.get('username') }}</strong>
+                    </span>
+                    <form action="{{ url_for('logout') }}" method="POST" style="margin: 0;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-text" style="color: #ef4444; padding: 0; cursor: pointer; font-size: 13px;">Sign Out</button>
+                    </form>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-text" style="font-size: 13px;">Sign In</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 11px; border-radius: 6px;">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Исполнительный скрипт кликов -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleBtn = document.getElementById("theme-toggle");
+
+            toggleBtn.addEventListener("click", function() {
+                let activeTheme = document.documentElement.getAttribute("data-theme");
+                let newTheme = (activeTheme === "neon") ? "stadium" : "neon";
+
+                document.documentElement.setAttribute("data-theme", newTheme);
+                localStorage.setItem("a-train-theme", newTheme);
+            });
+        });
+    </script>
+</body>
+</html>

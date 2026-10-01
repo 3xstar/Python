@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+<div style="max-w: 400px; margin: 3rem auto 0 auto;">
+    <div class="card">
+        <h2 class="card-title">Access Dashboard</h2>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                <label class="form-label">{{ form.login_input.label }}</label>
+                {{ form.login_input(class="form-control", placeholder="Enter email or username") }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">{{ form.password.label }}</label>
+                {{ form.password(class="form-control", placeholder="Enter password") }}
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-container">
+                    <span class="form-label" style="margin: 0; cursor: pointer;">{{ form.remember.label }}</span>
+                    {{ form.remember() }}
+                    <div class="toggle-switch"></div>
+                </label>
+            </div>
+
+
+            {{ form.submit(class="btn btn-primary", style="width: 100%; margin-top: 1rem; font-size: 0.95rem; padding: 0.75rem;") }}
+        </form>
+
+        <div style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+            New to the race? <a href="{{ url_for('register') }}" style="color: var(--primary-blue); font-weight: 600; text-decoration: none;">Create an account</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
