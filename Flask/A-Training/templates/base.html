@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} - A-Training</title>
 
-    <!-- 🛡️ МОМЕНТАЛЬНАЯ СИНХРОНИЗАЦИЯ ЗОНЫ СКОРОСТИ -->
+    <!-- 🛡️ МОМЕНТАЛЬНЫЙ ЗАПУСК КЛАССА СКОРОСТИ -->
     <script>
         (function () {
             const savedTheme = localStorage.getItem("a-train-theme") || "neon";
@@ -17,14 +17,14 @@
 </head>
 <body>
 
-    <!-- ⚡ High-Speed Navigation Panel -->
+    <!-- ⚡ High-Speed iOS Navbar -->
     <nav class="navbar">
         <div class="navbar-container">
             <a href="{{ url_for('index') }}" class="logo-text">
-                A-Training
+                ⚡ A-Training
             </a>
             <div class="nav-links">
-                <!-- Тумблер переключения зон телеметрии -->
+                <!-- Тумблер переключения зон скорости -->
                 <button id="theme-toggle" class="theme-toggle-btn" title="Switch Theme">⚡</button>
 
                 {% if session.get('user_id') %}
@@ -33,44 +33,62 @@
                     </span>
                     <form action="{{ url_for('logout') }}" method="POST" style="margin: 0;">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button type="submit" class="btn btn-text" style="color: #ef4444; padding: 0; cursor: pointer; font-size: 13px;">Sign Out</button>
+                        <button type="submit" class="btn btn-text" style="color: #ff3b30; padding: 0; cursor: pointer; font-size: 13px;">Sign Out</button>
                     </form>
                 {% else %}
                     <a href="{{ url_for('login') }}" class="btn btn-text" style="font-size: 13px;">Sign In</a>
-                    <a href="{{ url_for('register') }}" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 11px; border-radius: 6px;">Register</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 12px; border-radius: 10px;">Register</a>
                 {% endif %}
             </div>
         </div>
     </nav>
 
+    <!-- ⚡ Настоящие системные тосты (Выплывают справа под навигатором, не загораживая кнопки) -->
     <div class="flash-container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="alert alert-{{ category }}">
-                        {{ message }}
+                        <span>{{ message }}</span>
+                        <!-- Кнопка закрытия (крестик ×) -->
+                        <button class="alert-close-btn" onclick="closeAlert(this)">&times;</button>
                     </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </div>
 
+    <!-- 🎯 ГЛАВНЫЙ ТРЕК СТРАНИЦЫ (Все виджеты будут рендериться здесь!) -->
     <main class="container">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Исполнительный скрипт кликов -->
+    <!-- ⚡ Интерактивный JS Контроллер интерфейса -->
     <script>
+        // Функция для плавного закрытия и улетания уведомления обратно вправо
+        function closeAlert(button) {
+            const alertElement = button.parentElement;
+            alertElement.style.opacity = '0';
+            alertElement.style.transform = 'translateX(30px) scale(0.95)';
+
+            // Удаляем элемент из верстки после завершения анимации CSS (200ms)
+            setTimeout(() => {
+                alertElement.remove();
+            }, 200);
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             const toggleBtn = document.getElementById("theme-toggle");
 
-            toggleBtn.addEventListener("click", function() {
-                let activeTheme = document.documentElement.getAttribute("data-theme");
-                let newTheme = (activeTheme === "neon") ? "stadium" : "neon";
+            if (toggleBtn) {
+                toggleBtn.addEventListener("click", function() {
+                    let activeTheme = document.documentElement.getAttribute("data-theme");
+                    let newTheme = (activeTheme === "neon") ? "stadium" : "neon";
 
-                document.documentElement.setAttribute("data-theme", newTheme);
-                localStorage.setItem("a-train-theme", newTheme);
-            });
+                    document.documentElement.setAttribute("data-theme", newTheme);
+                    localStorage.setItem("a-train-theme", newTheme);
+                });
+            }
         });
     </script>
 </body>

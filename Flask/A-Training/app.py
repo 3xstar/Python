@@ -1,10 +1,11 @@
 import os
-
-from flask import Flask, render_template, redirect, url_for, flash, session, abort
+import random
+from flask import Flask, render_template, redirect, url_for, flash, request, session, abort
 from flask_wtf.csrf import CSRFProtect
+from flask_mail import Mail, Message
 from datetime import datetime, timezone, timedelta
 from models import db, User, Exercise, ExerciseHistory
-from forms import LoginForm, RegisterForm, ExerciseForm
+from forms import LoginForm, RegisterForm, ExerciseForm, VerifyCodeForm, ForgotPasswordForm, ResetPasswordForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 
@@ -16,17 +17,59 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
 
-# ⚡ СОВРЕМЕННАЯ БЕЗОПАСНОСТЬ СЕССИЙ (Защита от сессионного угона)
-app.config['SESSION_COOKIE_HTTPONLY'] = True  # Запрещает JavaScript доступ к куки (Защита от XSS)
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Ограничивает передачу куки со сторонних сайтов (Защита от CSRF)
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
+# ⚡ КОНФИГУРАЦИЯ FLASK-MAIL
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 465))
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 
 db.init_app(app)
 csrf = CSRFProtect(app)
+mail = Mail(app)
 
-
-# Ручная проверка авторизации
 def check_login():
     return session.get('user_id') is not None
+
+
+
+def send_email(target_email, subject, code_title, code_value):
+
+    print("\n" + "=" * 50)
+    print(f"🚀 [MOCK EMAIL LOGGER] Target: {target_email}")
+    print(f"🚀 [MOCK EMAIL LOGGER] Subject: {subject}")
+    print(f"🚀 [MOCK EMAIL LOGGER] {code_title}: {code_value}")
+    print("=" * 50 + "\n")
+
+    try:
+        msg = Message(subject, recipients=[target_email])
+
+        msg.html = f"""
+        <html>
+        <body style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f1f5f9; padding: 30px; margin: 0;">
+            <div style="max-width: 460px; margin: 0 auto; background-color: #ffffff; padding: 32px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;">
+                <h2 style="color: #0f172a; margin-top: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.5px;">⚡ A-Training Telemetry</h2>
+                <p style="color: #475569; font-size: 14px; line-height: 1.5;">You requested a security action. Use the high-speed verification code below to proceed:</p>
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 12px; text-align: center; margin: 24px 0;">
+                    <span style="display: block; font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px;">{code_title}</span>
+                    <span style="font-family: 'Orbitron', monospace; font-size: 32px; font-weight: 700; color: #2563eb; letter-spacing: 2px;">{code_value}</span>
+                </div>
+                <p style="color: #94a3b8; font-size: 12px; margin-bottom: 0;">If you did not request this code, please ignore this message.</p>
+            </div>
+        </body>
+        </html>
+        """
+        mail.send(msg)
+        return True
+    except Exception as e:
+        print(f"Flask-Mail SMTP Error: {e}")
+        # Возвращаем True, чтобы при блоке сети хостинга сайт не крашился, а пускал по коду из консоли
+        return True
 
 
 # --- JINJA2 CUSTOM FILTERS ---
@@ -34,7 +77,6 @@ def check_login():
 def format_datetime(value):
     if value is None:
         return ""
-    # Переводим UTC время базы данных в локальное при желании, либо выводим по ТЗ: ДД.ММ.ГГГГ ЧЧ:ММ
     return value.strftime('%d.%m.%Y %H:%M')
 
 
@@ -42,7 +84,7 @@ def format_datetime(value):
 def format_number(value):
     if value is None:
         return ""
-    return f"{value:g}"  # Убирает висящие нули (60.0 -> 60)
+    return f"{value:g}"
 
 
 # --- ROUTES ---
@@ -59,29 +101,24 @@ def index():
         title_striped = form.title.data.strip()
         category_selected = form.category.data
 
-        # Строгая проверка ТЗ: Силовым упражнениям обязательны повторы
         if category_selected == 'Strength' and not form.repeat.data:
             form.repeat.errors.append('Repetitions are required for strength exercises.')
             return render_dashboard(form, current_user_id)
 
-        # Не зависимый от регистра поиск через LOWER()
         existing_exercise = Exercise.query.filter(
             Exercise.user_id == current_user_id,
             db.func.lower(Exercise.title) == db.func.lower(title_striped)
         ).first()
 
-        # Для кардио сбрасываем повторы в None
         repeat_val = form.repeat.data if category_selected == 'Strength' else None
 
         if existing_exercise:
-            # Обновление показателей существующего трека
             existing_exercise.category = category_selected
             existing_exercise.value = form.value.data
             existing_exercise.repeat = repeat_val
             existing_exercise.updated_at = datetime.now(timezone.utc)
             flash(f"Exercise '{existing_exercise.title}' successfully updated!", "success")
         else:
-            # Создание новой записи
             existing_exercise = Exercise(
                 title=title_striped,
                 category=category_selected,
@@ -94,7 +131,6 @@ def index():
 
         db.session.commit()
 
-        # Коммитим лог в историю изменений
         history_entry = ExerciseHistory(
             exercise_id=existing_exercise.id,
             value=form.value.data,
@@ -109,7 +145,6 @@ def index():
 
 
 def render_dashboard(form, user_id):
-    # Благодаря lazy=True и связям, запросы отработают моментально
     strength_exercises = Exercise.query.filter_by(user_id=user_id, category='Strength').all()
     cardio_exercises = Exercise.query.filter_by(user_id=user_id, category='Cardio').all()
     return render_template('index.html', form=form, strength=strength_exercises, cardio=cardio_exercises)
@@ -125,7 +160,6 @@ def register():
         username = form.name.data.strip()
         email = form.email.data.strip().lower()
 
-        # Наглядная проверка на уникальность
         if User.query.filter_by(name=username).first():
             form.name.errors.append('This username is already taken.')
             return render_template('register.html', form=form)
@@ -134,21 +168,100 @@ def register():
             form.email.errors.append('A user with this email is already registered.')
             return render_template('register.html', form=form)
 
-        # Запись хэша пароля
-        user = User(name=username, email=email, password_hash=generate_password_hash(form.password.data))
-        db.session.add(user)
-        db.session.commit()
+        verify_code = str(random.randint(100000, 999999))
 
-        # Авторизация сессии
-        session.clear()
-        session['user_id'] = user.id
-        session['username'] = user.name
-        session.permanent = True
+        session['temp_register_user'] = {
+            'name': username,
+            'email': email,
+            'password_hash': generate_password_hash(form.password.data)
+        }
+        session['temp_verification_code'] = verify_code
 
-        flash("Registration successful! Welcome to A-Training.", "success")
-        return redirect(url_for('index'))
+        send_email(email, "Verify Your A-Training Account", "REGISTRATION CODE", verify_code)
+        flash("Verification code processed! Check your email or system console.", "info")
+        return redirect(url_for('verify_registration'))
 
     return render_template('register.html', form=form)
+
+
+@app.route('/verify-registration', methods=['GET', 'POST'])
+def verify_registration():
+    if check_login() or 'temp_register_user' not in session:
+        return redirect(url_for('index'))
+
+    form = VerifyCodeForm()
+    if form.validate_on_submit():
+        if form.code.data == session.get('temp_verification_code'):
+            user_data = session['temp_register_user']
+
+            user = User(name=user_data['name'], email=user_data['email'], password_hash=user_data['password_hash'])
+            db.session.add(user)
+            db.session.commit()
+
+            session.pop('temp_register_user', None)
+            session.pop('temp_verification_code', None)
+
+            session['user_id'] = user.id
+            session['username'] = user.name
+            session.permanent = True
+
+            flash("Registration verified! Welcome to A-Training.", "success")
+            return redirect(url_for('index'))
+        else:
+            form.code.errors.append("Invalid verification code. Try again.")
+
+    return render_template('verify.html', form=form, title="Account Verification")
+
+
+@app.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    if check_login():
+        return redirect(url_for('index'))
+
+    form = ForgotPasswordForm()
+    if form.validate_on_submit():
+        email = form.email.data.strip().lower()
+        user = User.query.filter_by(email=email).first()
+
+        if user:
+            reset_code = str(random.randint(100000, 999999))
+            session['temp_reset_email'] = email
+            session['temp_reset_code'] = reset_code
+
+            send_email(email, "Reset Your A-Training Password", "PASSWORD RESET CODE", reset_code)
+            flash("Reset code processed! Check your email or system console.", "info")
+            return redirect(url_for('reset_password'))
+        else:
+            flash("If the email exists, a reset code has been sent.", "info")
+            return redirect(url_for('reset_password'))
+
+    return render_template('forgot_password.html', form=form)
+
+
+@app.route('/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    if check_login() or 'temp_reset_email' not in session:
+        return redirect(url_for('index'))
+
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        if form.code.data == session.get('temp_reset_code'):
+            email = session.get('temp_reset_email')
+            user = User.query.filter_by(email=email).first()
+
+            if user:
+                user.password_hash = generate_password_hash(form.password.data)
+                db.session.commit()
+
+                session.pop('temp_reset_email', None)
+                session.pop('temp_reset_code', None)
+
+                flash("Password updated successfully. Please login.", "success")
+                return redirect(url_for('login'))
+        else:
+            form.code.errors.append("Incorrect reset token.")
+
+    return render_template('reset_password.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -160,7 +273,6 @@ def login():
     if form.validate_on_submit():
         input_data = form.login_input.data.strip()
 
-        # Ищем совпадение либо по Имени, либо по Email
         user = User.query.filter((User.email == input_data.lower()) | (User.name == input_data)).first()
 
         if user and check_password_hash(user.password_hash, form.password.data):
@@ -169,16 +281,14 @@ def login():
             session['username'] = user.name
 
             session.permanent = True
-            # Реализация "Remember Me" через лимиты сессий
             if form.remember.data:
-                app.permanent_session_lifetime = timedelta(days=7)  # Запомнить на неделю
+                app.permanent_session_lifetime = timedelta(days=7)
             else:
-                app.permanent_session_lifetime = timedelta(minutes=10)  # Сбросить через 10 мин по ТЗ
+                app.permanent_session_lifetime = timedelta(minutes=10)
 
             flash("You have successfully logged in.", "success")
             return redirect(url_for('index'))
 
-        # Размытая ошибка ради кибербезопасности согласно ТЗ
         flash("Invalid email/username or password", "danger")
 
     return render_template('login.html', form=form)
@@ -198,11 +308,9 @@ def exercise_history(id):
 
     exercise = Exercise.query.get_or_404(id)
 
-    # Защита приватности: смотреть логи может только создатель
     if exercise.user_id != session.get('user_id'):
         abort(403)
 
-    # Сортировка: новые логи сверху (.desc())
     history_records = ExerciseHistory.query.filter_by(exercise_id=id).order_by(ExerciseHistory.created_at.desc()).all()
     return render_template('history.html', exercise=exercise, history=history_records)
 
@@ -216,8 +324,6 @@ def delete_exercise(id):
     if exercise.user_id != session.get('user_id'):
         abort(403)
 
-    # Благодаря каскаду cascade="all, delete-orphan" в модели Exercise,
-    # вызов db.session.delete(exercise) автоматически сотрет всю историю этого упражнения!
     db.session.delete(exercise)
     db.session.commit()
 
@@ -225,8 +331,8 @@ def delete_exercise(id):
     return redirect(url_for('index'))
 
 
-with app.app_context():
-    db.create_all()
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    port = int(os.environ.get("SERVER_PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=port)

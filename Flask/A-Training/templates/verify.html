@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div style="max-width: 440px; margin: 4rem auto 0 auto; width: 100%;">
+    <div class="card">
+        <h2 class="card-title">{{ title }}</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.4;">
+            We have dispatched a 6-digit confirmation token to your mailbox. Please enter it below to verify telemetry authorization.
+        </p>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label class="form-label">{{ form.code.label }}</label>
+                {{ form.code(class="form-control", placeholder="000000", autocomplete="off") }}
+                {% if form.code.errors %}
+                    {% for error in form.code.errors %}<span style="color: #ff3b30; font-size: 12px; margin-top: 4px;">{{ error }}</span>{% endfor %}
+                {% endif %}
+            </div>
+            {{ form.submit(class="btn btn-primary", style="width: 100%;") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

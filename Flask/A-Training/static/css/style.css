@@ -1,91 +1,134 @@
 /* -------------------------------------------------------------
-   A-TRAINING: APPLE MINIMALISM x A-TRAIN COCKPIT
-   Pure High-Tech Minimalist Speed Vibe (Smooth & Anti-Aliased)
+   A-TRAINING: PIXEL-PERFECT APPLE MINIMALISM
+   Ultra-Sharp Fonts & Sharp Borders Architecture (Anti-Blur Edition)
    ------------------------------------------------------------- */
-@import url('https://googleapis.com');
+
+/* Анимация переливов энергии на хромированном треке */
+@keyframes track-waves {
+    0% { background-position: 0px 0px, 0px 0px, 0% 50%, 100% 50%; }
+    50% { background-position: 0px 0px, 0px 0px, 100% 50%, 0% 50%; }
+    100% { background-position: 0px 0px, 0px 0px, 0% 50%, 100% 50%; }
+}
+
+/* 🏎️ Идеально четкая анимация появления (Только прозрачность, без размывающего сдвига координат) */
+@keyframes window-entry {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
 
 /* ==========================================================================
-   1. ПРЕМИАЛЬНЫЕ СИСТЕМНЫЕ ПЕРЕМЕННЫЕ
+   1. ПРЕМИАЛЬНЫЕ СИСТЕМНЫЕ ЗОНЫ СКОРОСТИ (ТЕМЫ)
    ========================================================================== */
 
-/* 🌃 ТЕМА 1: NEON MIDNIGHT (По умолчанию) */
+/* 🌌 ТЕМА 1: NEON MIDNIGHT */
 :root, [data-theme="neon"] {
-    --bg-main: #0b0f19;           /* Глубокий монохромный полуночный фон */
-    --panel-bg: #131a2c;          /* Матовая темная броня */
-    --atrain-blue: #2563eb;       /* Сигнальный синий Apple iOS */
-    --neon-glow: #00f2ff;         /* Тонкий неоновый бирюзовый акцент */
-    --border-color: rgba(255, 255, 255, 0.06); /* Ультратонкие рамки */
-    --text-main: #f8fafc;         /* Матовый белый */
-    --text-muted: #64748b;        /* Благородный серый */
-    --input-bg: #070a12;          /* Контрастные подложки полей */
+    --bg-color: #0b0f19;
+    --panel-bg: #131a2c;
+    --text-main: #f8fafc;
+    --text-muted: #64748b;
+    --atrain-blue: #2563eb;
+    --glow-1: rgba(37, 99, 235, 0.2);
+    --glow-2: rgba(0, 242, 255, 0.15);
+    --grid-line: rgba(255, 255, 255, 0.015);
+    --border-color: rgba(255, 255, 255, 0.06);
+    --input-bg: #070a12;
+    --table-header: #0b1329;
     --table-hover: rgba(255, 255, 255, 0.02);
-    --switch-bg: #1e293b;
-    --shadow-main: rgba(0, 0, 0, 0.4);
 }
 
-/* ☀️ ТЕМА 2: CHROME STADIUM */
+/* ☀️ ТЕМА 2: CHROME STADIUM (Приглушенная матовая тема Apple) */
 [data-theme="stadium"] {
-    --bg-main: #f1f5f9;           /* Свежий светлый алюминиевый фон */
-    --panel-bg: #ffffff;          /* Белоснежные глянцевые плитки */
-    --atrain-blue: #0052cc;       /* Глубокий ультрамариновый синий */
-    --neon-glow: #0d9488;         /* Насыщенный стадионный бирюзовый */
-    --border-color: #e2e8f0;      /* Системные рамки Apple */
-    --text-main: #0f172a;         /* Глубокий графитовый текст */
-    --text-muted: #64748b;
-    --input-bg: #f8fafc;
-    --table-hover: #f1f5f9;
-    --switch-bg: #e2e8f0;
-    --shadow-main: rgba(15, 23, 42, 0.04);
+    --bg-color: #e2e8f0;
+    --panel-bg: #f1f5f9;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --atrain-blue: #0052cc;
+    --glow-1: rgba(0, 82, 204, 0.08);
+    --glow-2: rgba(15, 23, 42, 0.05);
+    --grid-line: rgba(0, 0, 0, 0.03);
+    --border-color: rgba(0, 0, 0, 0.08);
+    --input-bg: #e2e8f0;
+    --table-header: #cbd5e1;
+    --table-hover: rgba(0, 0, 0, 0.03);
 }
 
 /* ==========================================================================
-   2. ГЛОБАЛЬНЫЙ КАРКАС И СИСТЕМНАЯ ПЛАВНОСТЬ */
+   2. КОРПУС СТРАНИЦЫ И ВЫСОКОПРОИЗВОДИТЕЛЬНЫЙ ФОН */
 
 body {
-    margin: 0; padding: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--bg-main);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
     color: var(--text-main);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    /* Убираем любую зернистость, делаем рендеринг идеально сглаженным */
+
+    /* 🛡️ КРИТИЧЕСКИ ВАЖНО ДЛЯ ЧЕТКОСТИ: Принудительное бритвенное сглаживание шрифтов */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Плавные Apple-переходы для всего интерфейса */
-    transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-rendering: optimizeLegibility;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -2;
+    background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        radial-gradient(circle at 15% 25%, var(--glow-1) 0px, transparent 65%),
+        radial-gradient(circle at 85% 75%, var(--glow-2) 0px, transparent 65%);
+    background-size: 50px 50px, 50px 50px, 200% 200%, 200% 200%;
+    animation: track-waves 14s ease-in-out infinite;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.03) 100%);
+    pointer-events: none;
 }
 
 /* ==========================================================================
-   3. НАВИГАЦИОННАЯ ПАНЕЛЬ (iOS NAVBAR) */
+   3. НАВИГАЦИОННАЯ ПАНЕЛЬ */
 
 .navbar {
     background: var(--panel-bg);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0; z-index: 100;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.015);
     transition: background-color 0.25s, border-color 0.25s;
 }
 
 .navbar-container {
-    max-width: 1050px;
+    max-width: 1150px;
     margin: 0 auto;
-    padding: 0.75rem 1.5rem;
+    padding: 0.85rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .logo-text {
-    font-family: 'SF Pro Display', -apple-system, sans-serif;
-    font-weight: 900;
     font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.6px;
     color: var(--text-main);
+    text-decoration: none;
     text-transform: uppercase;
     font-style: italic;
-    text-decoration: none;
-    letter-spacing: -0.5px;
 }
 
 .nav-links {
@@ -94,20 +137,16 @@ body {
     gap: 1.5rem;
 }
 
-/* Системная кнопка-тумблер смены тем */
 .theme-toggle-btn {
     background: var(--input-bg);
     border: 1px solid var(--border-color);
     color: var(--text-main);
-    width: 36px;
-    height: 36px;
+    width: 38px; height: 38px;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     font-size: 1rem;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.15s, border-color 0.15s;
 }
 
 .theme-toggle-btn:hover {
@@ -116,11 +155,11 @@ body {
 }
 
 /* ==========================================================================
-   4. СТРОГИЕ МИНИМАЛИСТИЧНЫЕ ВИДЖЕТЫ И ФОРМЫ */
+   4. УВЕЛИЧЕННЫЕ КАРТОЧКИ-ВИДЖЕТЫ И СТРУКТУРА ГРИДА */
 
 .container {
-    max-width: 1050px;
-    margin: 3rem auto;
+    max-width: 1150px;
+    margin: 3.5rem auto;
     padding: 0 1.5rem;
     width: 100%;
     box-sizing: border-box;
@@ -129,69 +168,72 @@ body {
 .grid-layout {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 32px;
 }
 
 @media (min-width: 1024px) {
     .grid-layout {
-        grid-template-columns: 310px 1fr;
+        grid-template-columns: 360px 1fr;
     }
 }
 
 .card {
     background: var(--panel-bg);
     border: 1px solid var(--border-color);
-    box-shadow: 0 12px 40px var(--shadow-main); /* Плавная объемная тень macOS */
-    padding: 1.75rem;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
     box-sizing: border-box;
-    border-radius: 16px; /* Премиальный радиус Apple */
-    transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+
+    /* ⚡ Чистая анимация без смазывания текстур */
+    animation: window-entry 0.25s ease-in-out forwards;
 }
 
 .card-title {
-    font-family: 'SF Pro Display', -apple-system, sans-serif;
-    font-size: 1.15rem;
+    margin: 0 0 1.75rem 0;
+    font-size: 20px;
     font-weight: 700;
     color: var(--text-main);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.2px;
+    letter-spacing: -0.4px;
 }
 
+/* ==========================================================================
+   5. МИНИМАЛИСТИЧНЫЙ ШРИФТ И ИНПУТЫ */
+
 .form-group {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
 }
 
 .form-label {
-    color: var(--text-muted);
-    text-transform: uppercase;
     font-size: 11px;
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.8px;
 }
 
-/* Инпуты в стиле настроек iOS */
 .form-control {
     width: 100%;
-    padding: 0.7rem 0.9rem;
-    font-size: 0.9rem;
+    padding: 14px;
+    font-size: 14px;
     font-family: inherit;
     font-weight: 500;
-    border-radius: 10px;
+    letter-spacing: -0.1px;
+    border-radius: 12px;
     border: 1px solid var(--border-color);
     background-color: var(--input-bg);
     color: var(--text-main);
     box-sizing: border-box;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .form-control:focus {
     outline: none;
     border-color: var(--atrain-blue);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); /* Деликатное системное свечение */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 select.form-control {
@@ -199,87 +241,73 @@ select.form-control {
     appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://w3.org' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 0.85rem center;
+    background-position: right 1rem center;
     background-size: 0.9rem;
 }
 
-/* ==========================================================================
-   5. МЯГКИЙ ОБЪЕМНЫЙ ТУМБЛЕР (REMEMBER ME) */
-
+/* ЦЕНТРИРОВАННЫЙ ОБЪЕМНЫЙ ТУМБЛЕР (TOGGLE SWITCH) */
 .checkbox-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 14px;
     cursor: pointer;
-    margin: 1.25rem 0;
+    margin: 1.5rem 0;
 }
 
-.checkbox-container input {
-    display: none;
-}
+.checkbox-container input { display: none; }
 
-/* Матовый корпус оригинального iOS-переключателя */
 .toggle-switch {
-    width: 44px;
-    height: 24px;
-    background-color: var(--switch-bg);
+    width: 46px; height: 26px;
+    background-color: var(--border-color);
     border-radius: 9999px;
     position: relative;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: background-color 0.15s ease;
 }
 
-/* Круглый бегунок */
 .toggle-switch::after {
     content: "";
     position: absolute;
-    top: 2px; left: 2px;
+    top: 3px; left: 3px;
     width: 20px; height: 20px;
     background-color: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.15s ease;
 }
 
-.checkbox-container input:checked + .toggle-switch {
-    background-color: var(--atrain-blue);
-}
-
-.checkbox-container input:checked + .toggle-switch::after {
-    transform: translateX(20px);
-}
+.checkbox-container input:checked + .toggle-switch { background-color: var(--atrain-blue); }
+.checkbox-container input:checked + .toggle-switch::after { transform: translateX(20px); }
 
 /* ==========================================================================
-   6. ЛАКОНИЧНЫЕ СИСТЕМНЫЕ КНОПКИ БЕЗ ТЯЖЕЛЫХ ТЕНЕЙ */
+   6. КНОПКИ APPLE-STYLE */
 
 .btn {
-    font-family: inherit;
-    font-weight: 600;
-    padding: 0.65rem 1.4rem;
-    font-size: 0.85rem;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.2px;
     text-decoration: none;
-    box-sizing: border-box;
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
-/* Кнопка — чистый монохром с деликатным микро-сдвигом */
 .btn-primary {
-    background: var(--text-main);
-    color: var(--bg-main);
+    background-color: var(--text-main);
+    color: var(--bg-color);
 }
 
 .btn-primary:hover {
     opacity: 0.9;
-    transform: translateY(-0.5px);
 }
 
 .btn-primary:active {
-    transform: translateY(0.5px);
+    transform: scale(0.99); /* Безопасный микро-клик */
 }
 
 .btn-text {
@@ -293,37 +321,35 @@ select.form-control {
 }
 
 /* ==========================================================================
-   7. ВЫСОКООПТИМИЗИРОВАННЫЕ МИНИМАЛИСТИЧНЫЕ ТАБЛИЦЫ */
+   7. УВЕЛИЧЕННЫЕ ТАБЛИЦЫ ТЕЛЕМЕТРИИ */
 
 .table-wrapper {
     overflow-x: auto;
+    border-radius: 20px;
     border: 1px solid var(--border-color);
-    border-radius: 14px;
 }
 
 .training-table {
     width: 100%;
     border-collapse: collapse;
+    background: var(--panel-bg);
+}
+
+.training-table th, .training-table td {
+    padding: 18px 22px;
     text-align: left;
-    font-size: 0.9rem;
+    font-size: 14.5px;
+    letter-spacing: -0.1px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .training-table th {
-    background-color: var(--input-bg);
-    padding: 0.85rem 1.1rem;
-    font-weight: 600;
+    background-color: var(--table-header);
     color: var(--text-muted);
-    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
     text-transform: uppercase;
     font-size: 11px;
-    letter-spacing: 0.5px;
-}
-
-.training-table td {
-    padding: 1rem 1.1rem;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-main);
-    font-weight: 500;
+    letter-spacing: 0.6px;
 }
 
 .training-table tr:last-child td {
@@ -331,30 +357,102 @@ select.form-control {
 }
 
 .training-table tr:hover td {
-    background: var(--table-hover);
+    background-color: var(--table-hover);
 }
 
-/* Лаконичные акценты без кричащих цветов */
 .value-strength {
-    color: var(--text-main);
+    font-size: 16px;
     font-weight: 700;
-    font-family: 'SF Pro Display', -apple-system, sans-serif;
+    color: var(--text-main);
+    font-family: 'Orbitron', sans-serif;
 }
 
 .value-cardio {
-    color: var(--atrain-blue);
+    font-size: 16px;
     font-weight: 700;
-    font-family: 'SF Pro Display', -apple-system, sans-serif;
+    color: var(--atrain-blue);
+font-family: 'Orbitron', sans-serif;
+}
+.alert {
+padding: 16px 24px;
+border-radius: 14px;
+font-size: 14px;
+font-weight: 600;
+margin-bottom: 1.5rem;
+border: 1px solid var(--border-color);
+background: var(--panel-bg);
+border-left: 5px solid var(--atrain-blue);
 }
 
-/* Минималистичные лаконичные уведомления */
+/* ==========================================================================
+   8. ВЫСОКОТЕХНОЛОГИЧНЫЕ ТОСТ-УВЕДОМЛЕНИЯ (APPLE SLIDE-IN)
+   ========================================================================== */
+
+/* 🏎️ Плавное гоночное выплывание справа налево */
+@keyframes alert-slide-in {
+    0% {
+        opacity: 0;
+        transform: translateX(50px); /* Вылетает из-за правого края экрана */
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);    /* Встает на свое идеальное место */
+    }
+}
+
+/* Контейнер смещен строго ПОД верхнюю панель (top: 85px) */
+.flash-container {
+    position: fixed;
+    top: 85px;
+    right: 24px;
+    width: 360px;
+    max-width: calc(100vw - 48px);
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
 .alert {
-    padding: 0.85rem 1.25rem;
+    position: relative;
+    padding: 16px 40px 16px 20px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0;
     border: 1px solid var(--border-color);
     background: var(--panel-bg);
-    border-left: 4px solid var(--atrain-blue);
-    font-weight: 600;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    margin-bottom: 1.5rem;
+    border-left: 5px solid var(--atrain-blue);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    pointer-events: auto;
+
+    /* Применяем новую анимацию скольжения */
+    animation: alert-slide-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+    /* Плавное исчезновение при закрытии */
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
+
+/* Кнопка-крестик Apple Style */
+.alert-close-btn {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px; /* Слегка увеличили для удобного клика */
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.alert-close-btn:hover {
+    color: var(--text-main);
+    transform: translateY(-50%) scale(1.1); /* Легкое упругое увеличение крестика */

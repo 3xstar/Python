@@ -4,7 +4,7 @@
 {% block content %}
 <div class="grid-layout">
 
-    <!-- Left Column: Fast Action Logger Form -->
+    <!-- Левая колонка: Форма ввода показателей -->
     <div>
         <div class="card">
             <h3 class="card-title">Track Activity</h3>
@@ -16,7 +16,7 @@
                     <label class="form-label">{{ form.title.label }}</label>
                     {{ form.title(class="form-control", placeholder="e.g., Squats / Sprint") }}
                     {% if form.title.errors %}
-                        {% for error in form.title.errors %}<span style="color: #ef4444; font-size: 0.75rem;">{{ error }}</span>{% endfor %}
+                        {% for error in form.title.errors %}<span style="color: #ff3b30; font-size: 12px;">{{ error }}</span>{% endfor %}
                     {% endif %}
                 </div>
 
@@ -29,7 +29,7 @@
                     <label id="value-label" class="form-label">Weight (kg)</label>
                     {{ form.value(class="form-control", step="any") }}
                     {% if form.value.errors %}
-                        {% for error in form.value.errors %}<span style="color: #ef4444; font-size: 0.75rem;">{{ error }}</span>{% endfor %}
+                        {% for error in form.value.errors %}<span style="color: #ff3b30; font-size: 12px;">{{ error }}</span>{% endfor %}
                     {% endif %}
                 </div>
 
@@ -37,24 +37,24 @@
                     <label class="form-label">{{ form.repeat.label }}</label>
                     {{ form.repeat(class="form-control", placeholder="1-1000") }}
                     {% if form.repeat.errors %}
-                        {% for error in form.repeat.errors %}<span style="color: #ef4444; font-size: 0.75rem;">{{ error }}</span>{% endfor %}
+                        {% for error in form.repeat.errors %}<span style="color: #ff3b30; font-size: 12px;">{{ error }}</span>{% endfor %}
                     {% endif %}
                 </div>
 
-                {{ form.submit(class="btn btn-primary", style="width: 100%; margin-top: 0.5rem; padding: 0.7rem;") }}
+                {{ form.submit(class="btn btn-primary", style="width: 100%; margin-top: 0.5rem;") }}
             </form>
         </div>
     </div>
 
-    <!-- Right Column: Performance Data Stream -->
+    <!-- Правая колонка: Таблицы телеметрии -->
     <div style="display: flex; flex-direction: column; gap: 2rem;">
 
-        <!-- Strength Exercises Deck -->
-        <div class="card" style="padding: 0;">
-            <div style="padding: 1rem 1.5rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0;">
+        <!-- Блок Силовых упражнений -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <div style="padding: 1.25rem 1.5rem; background: var(--input-bg); border-bottom: 1px solid var(--border-color);">
                 <h3 class="card-title" style="margin: 0;">Strength Metrics</h3>
             </div>
-            <div class="table-wrapper" style="border: none; border-radius: 0 0 16px 16px;">
+            <div class="table-wrapper" style="border: none; border-radius: 0;">
                 <table class="training-table">
                     <thead>
                         <tr>
@@ -70,30 +70,30 @@
                         <tr>
                             <td style="font-weight: 600;">{{ item.title }}</td>
                             <td><span class="value-strength">{{ item.value | format_number }}</span> kg</td>
-                            <td style="color: var(--text-main); font-weight: 500;">{{ item.repeat }}</td>
-                            <td style="font-size: 0.75rem; color: var(--text-muted);">{{ item.updated_at | format_datetime }}</td>
+                            <td style="font-weight: 600;">{{ item.repeat }}</td>
+                            <td style="font-size: 12px; color: var(--text-muted);">{{ item.updated_at | format_datetime }}</td>
                             <td style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                                <a href="{{ url_for('exercise_history', id=item.id) }}" class="btn btn-text" style="color: var(--primary-blue); padding: 0.2rem 0.5rem; border: 1px solid rgba(0,82,204,0.2); border-radius: 4px; text-decoration: none;">Logs</a>
+                                <a href="{{ url_for('exercise_history', id=item.id) }}" class="btn btn-text" style="padding: 4px 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 12px; text-decoration: none;">Logs</a>
                                 <form action="{{ url_for('delete_exercise', id=item.id) }}" method="POST" onsubmit="return confirm('Erase this record and its telemetry data?');" style="margin: 0;">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-text" style="color: #ef4444; padding: 0; cursor: pointer;">Delete</button>
+                                    <button type="submit" class="btn btn-text" style="color: #ff3b30; padding: 0; cursor: pointer; font-size: 12px;">Delete</button>
                                 </form>
                             </td>
                         </tr>
                         {% else %}
-                        <tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem;">No strength exercises logged yet.</td></tr>
+                        <tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">No strength exercises logged yet.</td></tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Cardio Sessions Deck -->
-        <div class="card" style="padding: 0;">
-            <div style="padding: 1rem 1.5rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0;">
-                <h3 class="card-title" style="margin: 0;">Velocity Tracks (Cardio)</h3>
+        <!-- Блок Кардио сессий -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <div style="padding: 1.25rem 1.5rem; background: var(--input-bg); border-bottom: 1px solid var(--border-color);">
+                <h3 class="card-title" style="margin: 0;">Cardio Sessions</h3>
             </div>
-            <div class="table-wrapper" style="border: none; border-radius: 0 0 16px 16px;">
+            <div class="table-wrapper" style="border: none; border-radius: 0;">
                 <table class="training-table">
                     <thead>
                         <tr>
@@ -108,17 +108,17 @@
                         <tr>
                             <td style="font-weight: 600;">{{ item.title }}</td>
                             <td><span class="value-cardio">{{ item.value | format_number }}</span> km</td>
-                            <td style="font-size: 0.75rem; color: var(--text-muted);">{{ item.updated_at | format_datetime }}</td>
+                            <td style="font-size: 12px; color: var(--text-muted);">{{ item.updated_at | format_datetime }}</td>
                             <td style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                                <a href="{{ url_for('exercise_history', id=item.id) }}" class="btn btn-text" style="color: var(--primary-blue); padding: 0.2rem 0.5rem; border: 1px solid rgba(0,82,204,0.2); border-radius: 4px; text-decoration: none;">Logs</a>
+                                <a href="{{ url_for('exercise_history', id=item.id) }}" class="btn btn-text" style="padding: 4px 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 12px; text-decoration: none;">Logs</a>
                                 <form action="{{ url_for('delete_exercise', id=item.id) }}" method="POST" onsubmit="return confirm('Erase this record and its telemetry data?');" style="margin: 0;">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-text" style="color: #ef4444; padding: 0; cursor: pointer;">Delete</button>
+                                    <button type="submit" class="btn btn-text" style="color: #ff3b30; padding: 0; cursor: pointer; font-size: 12px;">Delete</button>
                                 </form>
                             </td>
                         </tr>
                         {% else %}
-                        <tr><td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem;">No velocity sessions logged yet.</td></tr>
+                        <tr><td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted);">No cardio tracked yet.</td></tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -128,7 +128,7 @@
     </div>
 </div>
 
-<!-- ⚡ Dynamic Fields Controller -->
+<!-- Интерактивный JS-переключатель полей ввода -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const categorySelect = document.getElementById("category-select");
@@ -137,7 +137,7 @@
 
         function adjustFields() {
             if (categorySelect.value === "Strength") {
-                repeatContainer.style.display = "block";
+                repeatContainer.style.display = "flex";
                 valueLabel.innerText = "Weight (kg)";
             } else {
                 repeatContainer.style.display = "none";
@@ -146,7 +146,7 @@
         }
 
         categorySelect.addEventListener("change", adjustFields);
-        adjustFields(); // Dynamic boot-up check
+        adjustFields();
     });
 </script>
 {% endblock %}

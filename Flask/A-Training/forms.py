@@ -24,3 +24,20 @@ class ExerciseForm(FlaskForm):
     value = FloatField('Value', validators=[DataRequired(), NumberRange(min=0.01, message='Value must be greater than 0')])
     repeat = IntegerField('Repetitions', validators=[Optional(), NumberRange(min=1, max=1000)])
     submit = SubmitField('Save Exercise')
+
+
+class VerifyCodeForm(FlaskForm):
+    code = StringField('Verification Code', validators=[DataRequired(), Length(6, 6, message="Code must be 6 digits")])
+    submit = SubmitField('Verify')
+
+
+class ForgotPasswordForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Send Reset Code')
+
+
+class ResetPasswordForm(FlaskForm):
+    code = StringField('Reset Code', validators=[DataRequired(), Length(6, 6)])
+    password = PasswordField('New Password', validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
+    submit = SubmitField('Reset Password')

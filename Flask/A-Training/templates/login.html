@@ -2,7 +2,8 @@
 {% block title %}Sign In{% endblock %}
 
 {% block content %}
-<div style="max-w: 400px; margin: 3rem auto 0 auto;">
+<!-- Добавляем центрирование и жесткое ограничение ширины по стандартам iOS -->
+<div style="max-width: 440px; margin: 4rem auto 0 auto; width: 100%;">
     <div class="card">
         <h2 class="card-title">Access Dashboard</h2>
 
@@ -19,7 +20,8 @@
                 {{ form.password(class="form-control", placeholder="Enter password") }}
             </div>
 
-            <div class="form-group">
+            <!-- Теперь точно строго по центру виджета -->
+            <div class="form-group" style="align-items: center;">
                 <label class="checkbox-container">
                     <span class="form-label" style="margin: 0; cursor: pointer;">{{ form.remember.label }}</span>
                     {{ form.remember() }}
@@ -27,13 +29,14 @@
                 </label>
             </div>
 
-
-            {{ form.submit(class="btn btn-primary", style="width: 100%; margin-top: 1rem; font-size: 0.95rem; padding: 0.75rem;") }}
+            {{ form.submit(class="btn btn-primary", style="width: 100%; margin-top: 1rem;") }}
         </form>
 
-        <div style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
-            New to the race? <a href="{{ url_for('register') }}" style="color: var(--primary-blue); font-weight: 600; text-decoration: none;">Create an account</a>
+        <div style="margin-top: 1.5rem; text-align: center; font-size: 13px; color: var(--text-muted);">
+            New to the race? <a href="{{ url_for('register') }}" style="color: var(--atrain-blue); font-weight: 600; text-decoration: none;">Create an account</a>
         </div>
+        <a href="{{ url_for('forgot_password') }}" style="color: var(--text-muted); font-size: 13px; text-decoration: none; display: block; text-align: center; margin-top: 1rem;">Forgot password?</a>
+
     </div>
 </div>
 {% endblock %}
