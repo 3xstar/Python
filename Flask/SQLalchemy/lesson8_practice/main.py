@@ -56,7 +56,6 @@ def index():
 
         query = Task.query
 
-
         if category_filter and category_filter != "all":
             query = query.filter(Task.category == category_filter)
 
@@ -98,8 +97,8 @@ def complete_task(id):
 @app.route('/edit-task/<int:id>', methods=['GET', 'POST'])
 def edit_task(id):
     task = Task.query.get(id)
-    form = TaskForm(obj=task) #obj=note передать объект в форму
-    if form.validate_on_submit(): # условие что данные были отправлены
+    form = TaskForm(obj=task) # obj=note передать объект в форму
+    if form.validate_on_submit(): # условие: данные были отправлены
         task.title = form.title.data
         task.description = form.description.data
         task.done = False
