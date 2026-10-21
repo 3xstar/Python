@@ -1,1 +1,0 @@
-print("BLU BLU BLU")
